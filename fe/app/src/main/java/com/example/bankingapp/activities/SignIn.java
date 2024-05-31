@@ -4,17 +4,29 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.bankingapp.R;
+import com.example.bankingapp.database.Database;
+import com.example.bankingapp.database.models.User;
+import com.example.bankingapp.database.service.AuthService;
 import com.example.bankingapp.utils.ValidationManager;
 import com.google.android.material.textfield.TextInputLayout;
+
+import java.io.IOException;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class SignIn extends AppCompatActivity {
 
@@ -52,12 +64,15 @@ public class SignIn extends AppCompatActivity {
 
             //check email and password to sign in
             if (ValidationManager.getInstance().isAllValid()) {
-
+                User user = User
+                        .builder()
+                        .email(email_input.getEditText().getText().toString())
+                        .password(password_input.getEditText().getText().toString())
+                        .build();
+                login(user);
             }
 
         });
-
-
 
 
     }
@@ -72,14 +87,16 @@ public class SignIn extends AppCompatActivity {
         }
         return super.dispatchTouchEvent(event);
     }
+
     private boolean isFocusedInputClickedOutside(MotionEvent event) {
         if (focusedInput != null && focusedInput.isFocusableInTouchMode()) {
             Rect outRect = new Rect();
             focusedInput.getGlobalVisibleRect(outRect);
-            return !outRect.contains((int)event.getRawX(), (int)event.getRawY());
+            return !outRect.contains((int) event.getRawX(), (int) event.getRawY());
         }
         return false;
     }
+
     private void unfocusInput() {
         if (focusedInput != null) {
             focusedInput.clearFocus();
@@ -87,5 +104,38 @@ public class SignIn extends AppCompatActivity {
             imm.hideSoftInputFromWindow(focusedInput.getWindowToken(), 0);
         }
     }
+
+    private void login(User user) {
+        AuthService authService = Database.getClient().create(AuthService.class);
+        Call<User> call = authService.login(user);
+        call.enqueue(new Callback<User>() {
+                         @Override
+                         public void onResponse(@NonNull Call<User> call, @NonNull Response<User> response) {
+                             if (response.isSuccessful()) {
+                                 Toast.makeText(getApplicationContext(), "Login successful!", Toast.LENGTH_SHORT).show();
+                                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                                 startActivity(intent);
+                             } else {
+                                 try {
+                                     assert response.errorBody() != null;
+                                     String errorResponse = response.errorBody().string();
+                                     Log.e("TAG", "Error response: " + errorResponse);
+                                     Toast.makeText(getApplicationContext(), errorResponse, Toast.LENGTH_SHORT).show();
+
+                                 } catch (IOException e) {
+                                     e.printStackTrace();
+                                     Toast.makeText(getApplicationContext(), "Failed to read error response", Toast.LENGTH_SHORT).show();
+                                 }
+                             }
+                         }
+
+                         @Override
+                         public void onFailure(@NonNull Call<User> call, @NonNull Throwable t) {
+                             Toast.makeText(getApplicationContext(), "An error occurred!!!", Toast.LENGTH_SHORT).show();
+                         }
+                     }
+        );
+    }
+
 
 }

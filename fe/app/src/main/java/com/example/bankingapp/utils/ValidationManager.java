@@ -1,5 +1,6 @@
 package com.example.bankingapp.utils;
 
+import android.util.Log;
 import android.util.Patterns;
 
 import com.google.android.material.textfield.TextInputLayout;
@@ -22,6 +23,7 @@ public class ValidationManager {
                     "$");
     private final String ERR_MSG_CHECK_EMPTY = "Please enter this field.";
     private final String ERR_MSG_CHECK_EMAIL = "Invalid email";
+    private final String ERR_MSG_CHECK_PHONE = "Invalid phone";
     private final String ERR_MSG_MATCH_PASSWORD = "Password does not match";
     private final String ERR_MSG_CHECK_PASSWORD = "Password must be at least 1 digit, 1 lowercase, 1 uppercase letter, 1 special character, 8 characters, no white spaces";
     private boolean isAllValid = false;
@@ -74,9 +76,30 @@ public class ValidationManager {
         });
 
         isAllValid = (input_layout.length > 0 && isAllMatch[0] == input_layout.length);
+        Log.d("checkmail", "valid" + isAllValid);
 
         return instance;
     }
+
+    public  ValidationManager checkPhone(TextInputLayout... input_layout) {
+        int[] isAllMatch = {0};
+        clearAllInputErrorWhenFirstCheck(input_layout);
+        Arrays.stream(input_layout).forEach(input -> {
+            String value = Objects.requireNonNull(input.getEditText()).getText().toString().trim();
+            if (!Patterns.PHONE.matcher(value).matches()) {
+                if (input.getError()==null) {
+                    input.setError(ERR_MSG_CHECK_EMAIL);
+                }
+            } else {
+                isAllMatch[0]++;
+            }
+        });
+
+        isAllValid = (input_layout.length > 0 && isAllMatch[0] == input_layout.length);
+
+        return instance;
+    }
+
     public ValidationManager checkPassword(TextInputLayout... input_layout) {
        int[] isAllMatch = {0};
        clearAllInputErrorWhenFirstCheck(input_layout);
@@ -84,22 +107,30 @@ public class ValidationManager {
            if (!PASSWORD_PATTERN.matcher(input.getEditText().getText().toString()).matches()) {
                if (input.getError()==null) {
                    input.setError(ERR_MSG_CHECK_PASSWORD);
-               } else {
-                   isAllMatch[0]++;
                }
+           } else {
+               isAllMatch[0]++;
            }
        });
         isAllValid = input_layout.length>0 && isAllMatch[0] == input_layout.length;
+        Log.d("checkpass", "inpput" + input_layout.length + ", match" + isAllMatch[0]);
+
         return instance;
     }
     public  ValidationManager matchPassword(TextInputLayout password, TextInputLayout re_password) {
         clearAllInputErrorWhenFirstCheck(new TextInputLayout[]{password, re_password});
+        Log.d("TAG", "Password: " + password.getEditText().getText().toString() + ", rePassword: " + re_password.getEditText().getText().toString());
         if (!password.getEditText().getText().toString().equals(re_password.getEditText().getText().toString())) {
+            Log.d("checklast", "invalid");
+
             if (re_password.getError()==null) {
                 re_password.setError(ERR_MSG_MATCH_PASSWORD);
                 isAllValid = false;
             }
         }
+        Log.d("checklast", "valid" + isAllValid);
+
+
         return instance;
     }
     private void clearAllInputErrorWhenFirstCheck(TextInputLayout[] inputLayout) {

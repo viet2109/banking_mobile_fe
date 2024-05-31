@@ -6,7 +6,8 @@
     android:layout_height="wrap_content"
     android:layout_gravity="bottom"
     android:background="#F8FBFF"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:id="@+id/footer">
 
     <androidx.cardview.widget.CardView
         android:layout_width="wrap_content"

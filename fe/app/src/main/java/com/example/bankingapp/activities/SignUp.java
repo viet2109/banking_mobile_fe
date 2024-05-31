@@ -7,23 +7,34 @@ import android.graphics.Rect;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.bankingapp.R;
+import com.example.bankingapp.database.Database;
+import com.example.bankingapp.database.models.User;
+import com.example.bankingapp.database.service.AuthService;
 import com.example.bankingapp.utils.ValidationManager;
 import com.google.android.material.textfield.TextInputLayout;
 
+import java.io.IOException;
 import java.util.Objects;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class SignUp extends AppCompatActivity {
     private View focusedInput;
-   private  TextInputLayout email_input, password_input, repeat_password_input;
+    private TextInputLayout name_input, phone_input, password_input, repeat_password_input;
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -35,11 +46,14 @@ public class SignUp extends AppCompatActivity {
         TextView header_description = findViewById(R.id.header_description);
         Button sign_up_button = findViewById(R.id.submit_button);
         TextView sign_in_link = findViewById(R.id.auth_button);
-        email_input = findViewById(R.id.email);
+
+        name_input = findViewById(R.id.name);
+        phone_input = findViewById(R.id.phone);
         password_input = findViewById(R.id.password);
         repeat_password_input = findViewById(R.id.repeat_password);
 
-        final String[] email_input_value = {""};
+        final String[] name_input_value = {""};
+        final String[] phone_input_value = {""};
         final String[] password_input_value = {""};
         final String[] repeat_password_input_value = {""};
 
@@ -50,7 +64,8 @@ public class SignUp extends AppCompatActivity {
         sign_in_link.setText("Login to my account");
 
         //get all data input
-        Objects.requireNonNull(email_input.getEditText()).addTextChangedListener(new TextWatcher() {
+
+        Objects.requireNonNull(name_input.getEditText()).addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -63,8 +78,24 @@ public class SignUp extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                email_input_value[0] = s.toString();
-                email_input.setError(null);
+                name_input.setError(null);
+            }
+        });
+        Objects.requireNonNull(phone_input.getEditText()).addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                phone_input_value[0] = s.toString();
+                phone_input.setError(null);
             }
         });
         Objects.requireNonNull(password_input.getEditText()).addTextChangedListener(new TextWatcher() {
@@ -111,22 +142,30 @@ public class SignUp extends AppCompatActivity {
         //hanlde sign_up button
         sign_up_button.setOnClickListener(view -> {
 
-            ValidationManager.getInstance().checkEmpty(email_input, password_input, repeat_password_input)
-                    .checkEmail(email_input)
+            ValidationManager.getInstance().checkEmpty(phone_input, password_input, repeat_password_input, name_input)
+                    .checkEmail(phone_input)
                     .checkPassword(password_input)
                     .matchPassword(password_input, repeat_password_input);
 
+            if (ValidationManager.getInstance().isAllValid()) {
+                Log.d("TAG", "onCreate");
+                User user = User
+                        .builder()
+                        .name(name_input.getEditText().getText().toString())
+                        .email(phone_input.getEditText().getText().toString())
+                        .password(password_input.getEditText().getText().toString())
+                        .build();
+                register(user);
+            } else {
+                Log.d("TAG", "failed");
 
-
-
+            }
 
 
         });
 
 
-
     }
-
 
 
     @Override
@@ -144,7 +183,7 @@ public class SignUp extends AppCompatActivity {
         if (focusedInput != null && focusedInput.isFocusableInTouchMode()) {
             Rect outRect = new Rect();
             focusedInput.getGlobalVisibleRect(outRect);
-            return !outRect.contains((int)event.getRawX(), (int)event.getRawY());
+            return !outRect.contains((int) event.getRawX(), (int) event.getRawY());
         }
         return false;
     }
@@ -155,6 +194,40 @@ public class SignUp extends AppCompatActivity {
             InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(focusedInput.getWindowToken(), 0);
         }
+    }
+
+    private void register(User user) {
+        Log.d("Register", user.toString());
+        AuthService authService = Database.getClient().create(AuthService.class);
+        Call<User> call = authService.register(user);
+        Log.d("TAG", "register");
+        call.enqueue(new Callback<User>() {
+                         @Override
+                         public void onResponse(@NonNull Call<User> call, @NonNull Response<User> response) {
+                             if (response.isSuccessful()) {
+                                 Toast.makeText(getApplicationContext(), "Register successful!", Toast.LENGTH_SHORT).show();
+                                 Intent intent = new Intent(getApplicationContext(), SignIn.class);
+                                 startActivity(intent);
+                             } else {
+                                 try {
+                                     assert response.errorBody() != null;
+                                     String errorResponse = response.errorBody().string();
+                                     Log.e("TAG", "Error response: " + errorResponse);
+                                     Toast.makeText(getApplicationContext(), errorResponse, Toast.LENGTH_SHORT).show();
+
+                                 } catch (IOException e) {
+                                     e.printStackTrace();
+                                     Toast.makeText(getApplicationContext(), "Failed to read error response", Toast.LENGTH_SHORT).show();
+                                 }
+                             }
+                         }
+
+                         @Override
+                         public void onFailure(@NonNull Call<User> call, @NonNull Throwable t) {
+                             Toast.makeText(getApplicationContext(), "An error occurred!!!", Toast.LENGTH_SHORT).show();
+                         }
+                     }
+        );
     }
 
 }
