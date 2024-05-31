@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    >
+
+
+    <TextView
+        android:id="@+id/title_slide"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:textStyle="bold"
+        android:textSize="24sp"
+        android:textColor="@color/text_black_bold"
+        android:layout_marginHorizontal="30dp"
+        android:text="Choose from a wide range of  delicious meals" />
+
+    <ImageView
+        android:id="@+id/image_slide"
+        android:layout_marginTop="40dp"
+        android:layout_width="match_parent"
+        android:layout_height="260dp"
+        tools:src="@drawable/slide_intro_2"
+        android:layout_marginHorizontal="19dp"/>
+
+
+</LinearLayout>

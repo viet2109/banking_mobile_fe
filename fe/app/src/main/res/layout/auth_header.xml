@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="top"
+    android:background="#F8FBFF"
+    android:id="@+id/header"
+    >
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="34dp"
+        android:layout_height="23.25dp"
+        android:layout_marginTop="28dp"
+        android:contentDescription="Logo"
+        android:src="@drawable/logo"
+        tools:ignore="HardcodedText"
+        android:layout_gravity="center"
+        />
+
+    <TextView
+        android:id="@+id/header_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_marginStart="44dp"
+        android:layout_marginTop="47dp"
+        android:text="Login to your account"
+        android:textColor="@color/text_black_bold"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        tools:ignore="HardcodedText" />
+
+    <TextView
+        android:id="@+id/header_description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="44dp"
+        android:layout_marginEnd="44dp"
+        android:layout_marginTop="17dp"
+        android:text="Good to see you again, enter your details below to continue ordering."
+        android:textSize="14sp"
+        android:textColor="@color/text_black_semi"
+        tools:ignore="HardcodedText" />
+</LinearLayout>

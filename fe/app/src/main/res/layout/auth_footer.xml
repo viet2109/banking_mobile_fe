@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="bottom"
+    android:background="#F8FBFF"
+    android:orientation="vertical">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        app:cardCornerRadius="25dp"
+        app:cardElevation="4dp"
+
+
+        android:layout_marginBottom="18dp">
+
+        <Button
+            android:id="@+id/login_google_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:backgroundTint="@color/white"
+            android:drawableLeft="@drawable/google"
+            android:elevation="4dp"
+            android:text="Sign in with Google"
+            android:textColor="@color/text_black_semi"
+            tools:ignore="HardcodedText,RtlHardcoded" />
+    </androidx.cardview.widget.CardView>
+
+
+    <Button
+        android:id="@+id/submit_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="21dp"
+        android:layout_marginRight="21dp"
+        android:layout_marginBottom="36dp"
+        android:background="@drawable/gradient_background"
+        android:text="Login to my account"
+        android:textStyle="bold"
+        app:backgroundTint="@null"
+        tools:ignore="HardcodedText" />
+
+
+    <TextView
+        android:id="@+id/auth_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="40dp"
+        android:height="24dp"
+        android:text="Create an account"
+        android:textColor="@color/primary"
+        android:textSize="16sp"
+        tools:ignore="HardcodedText" />
+
+</LinearLayout>
