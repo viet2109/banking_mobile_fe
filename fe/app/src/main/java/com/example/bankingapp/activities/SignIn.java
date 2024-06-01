@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -23,6 +25,7 @@ import com.example.bankingapp.utils.ValidationManager;
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.io.IOException;
+import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -56,6 +59,40 @@ public class SignIn extends AppCompatActivity {
             startActivity(intent);
         });
 
+        //handle input press
+        Objects.requireNonNull(email_input.getEditText()).addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                email_input.setError(null);
+            }
+        });
+        Objects.requireNonNull(password_input.getEditText()).addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                password_input.setError(null);
+            }
+        });
+
         //handle sign_in button
         sign_in_button.setOnClickListener(view -> {
 
@@ -74,8 +111,9 @@ public class SignIn extends AppCompatActivity {
 
         });
 
-
     }
+
+
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent event) {
