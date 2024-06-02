@@ -8,6 +8,9 @@
       <entry key="ForgotPassword">
         <State />
       </entry>
+      <entry key="PaymentHistory">
+        <State />
+      </entry>
       <entry key="SignUp">
         <State />
       </entry>
