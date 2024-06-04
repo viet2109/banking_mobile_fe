@@ -17,6 +17,9 @@
       <entry key="app">
         <State />
       </entry>
+      <entry key="paybillWater">
+        <State />
+      </entry>
     </value>
   </component>
 </project>

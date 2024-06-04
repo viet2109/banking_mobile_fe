@@ -1,25 +1,36 @@
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:padding="16dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:background="#fff"
-        android:gravity="center_horizontal">
+        android:orientation="horizontal">
 
-        <!-- Title -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Exchange"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            android:layout_marginBottom="16dp"/>
+            android:layout_marginBottom="16dp"
+            android:layout_weight="1"
+            android:text="&lt; Exchange"
+            android:textAlignment="textStart"
+            android:textSize="26sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#fff"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <!-- Title -->
 
         <!-- Illustration Image -->
+
         <ImageView
             android:layout_width="327dp"
             android:layout_height="213dp"
@@ -30,25 +41,26 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="65dp"
-            android:orientation="horizontal"
+            android:layout_marginBottom="16dp"
             android:background="@drawable/rounded_border"
-            android:padding="8dp"
-            android:layout_marginBottom="16dp">
+            android:orientation="horizontal"
+            android:padding="8dp">
 
             <EditText
+                android:id="@+id/from_amount"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:background="@android:color/transparent"
                 android:hint="Amount"
                 android:inputType="number"
-                android:background="@android:color/transparent"
-                android:padding="8dp"/>
+                android:padding="8dp" />
 
             <View
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
-                android:background="#cccccc"
-                android:layout_marginHorizontal="8dp"/>
+                android:layout_marginHorizontal="8dp"
+                android:background="#cccccc" />
 
             <Spinner
                 android:id="@+id/from_currency_spinner"
@@ -62,19 +74,20 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/trade"
-            android:layout_marginBottom="16dp"/>
+            android:layout_marginBottom="16dp"
+            android:src="@drawable/trade" />
 
         <!-- To Field -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="65dp"
-            android:orientation="horizontal"
+            android:layout_marginBottom="16dp"
             android:background="@drawable/rounded_border"
-            android:padding="8dp"
-            android:layout_marginBottom="16dp">
+            android:orientation="horizontal"
+            android:padding="8dp">
 
             <EditText
+                android:id="@+id/to_amount"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -85,8 +98,8 @@
             <View
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
-                android:background="#cccccc"
-                android:layout_marginHorizontal="8dp"/>
+                android:layout_marginHorizontal="8dp"
+                android:background="#cccccc" />
 
             <Spinner
                 android:id="@+id/to_currency_spinner"
@@ -100,16 +113,17 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
             android:text="Currency rate: 1 USD = 1122 KRW"
-            android:textColor="#888888"
-            android:layout_marginBottom="16dp"/>
+            android:textColor="#888888" />
 
         <!-- Exchange Button -->
         <Button
+            android:id="@+id/btn_Exchange"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Exchange"
             android:backgroundTint="#713FCA"
-            android:textColor="@android:color/white"/>
+            android:text="Exchange"
+            android:textColor="@android:color/white" />
     </LinearLayout>
-</ScrollView>
+</LinearLayout>

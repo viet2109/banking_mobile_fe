@@ -39,6 +39,9 @@
             android:name=".activities.PaymentHistory"
             android:exported="true" />
         <activity
+            android:name=".activities.paybillWater"
+            android:exported="true" />
+        <activity
             android:name=".activities.MainActivity"
             android:exported="true">
             <intent-filter>
