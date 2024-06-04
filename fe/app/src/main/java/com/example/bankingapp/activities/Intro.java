@@ -18,7 +18,7 @@ import com.example.bankingapp.adapters.SlideIntroAdapter;
 
 import java.util.stream.IntStream;
 
-public class Intro extends AppCompatActivity {
+public class Intro extends BaseActivity {
     ViewPager slide_view_pager;
     SlideIntroAdapter slideIntroAdapter;
     Runnable autoChangeSlide;

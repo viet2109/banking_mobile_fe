@@ -1,21 +1,15 @@
 package com.example.bankingapp.activities;
 
-import android.content.Context;
 import android.content.Intent;
-import android.graphics.Rect;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.MotionEvent;
-import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.bankingapp.R;
 import com.example.bankingapp.database.Database;
@@ -31,9 +25,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class SignIn extends AppCompatActivity {
+public class SignIn extends BaseActivity {
 
-    private View focusedInput;
     private TextInputLayout email_input, password_input;
 
     @Override
@@ -113,36 +106,6 @@ public class SignIn extends AppCompatActivity {
 
     }
 
-
-
-    @Override
-    public boolean dispatchTouchEvent(MotionEvent event) {
-        if (event.getAction() == MotionEvent.ACTION_DOWN) {
-            focusedInput = getCurrentFocus();
-            if (isFocusedInputClickedOutside(event)) {
-                unfocusInput();
-            }
-        }
-        return super.dispatchTouchEvent(event);
-    }
-
-    private boolean isFocusedInputClickedOutside(MotionEvent event) {
-        if (focusedInput != null && focusedInput.isFocusableInTouchMode()) {
-            Rect outRect = new Rect();
-            focusedInput.getGlobalVisibleRect(outRect);
-            return !outRect.contains((int) event.getRawX(), (int) event.getRawY());
-        }
-        return false;
-    }
-
-    private void unfocusInput() {
-        if (focusedInput != null) {
-            focusedInput.clearFocus();
-            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(focusedInput.getWindowToken(), 0);
-        }
-    }
-
     private void login(User user) {
         AuthService authService = Database.getClient().create(AuthService.class);
         Call<User> call = authService.login(user);
@@ -151,7 +114,9 @@ public class SignIn extends AppCompatActivity {
                          public void onResponse(@NonNull Call<User> call, @NonNull Response<User> response) {
                              if (response.isSuccessful()) {
                                  Toast.makeText(getApplicationContext(), "Login successful!", Toast.LENGTH_SHORT).show();
+
                                  Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                                 finish();
                                  startActivity(intent);
                              } else {
                                  try {

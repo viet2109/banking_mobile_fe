@@ -12,12 +12,12 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.example.bankingapp.R;
 
-public class Splash extends AppCompatActivity {
+public class Splash extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_splash);
 
         new Handler().postDelayed(() -> {
             startActivity(new Intent(getApplicationContext(), SignIn.class));

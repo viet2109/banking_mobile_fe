@@ -19,9 +19,8 @@ import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.Objects;
 
-public class ForgotPassword extends AppCompatActivity {
+public class ForgotPassword extends BaseActivity {
 
-    private View focusedInput;
     private TextInputLayout email_input;
     private Button submit_button;
 
@@ -71,31 +70,7 @@ public class ForgotPassword extends AppCompatActivity {
 
     }
 
-    @Override
-    public boolean dispatchTouchEvent(MotionEvent event) {
-        if (event.getAction() == MotionEvent.ACTION_DOWN) {
-            focusedInput = getCurrentFocus();
-            if (isFocusedInputClickedOutside(event)) {
-                unfocusInput();
-            }
-        }
-        return super.dispatchTouchEvent(event);
-    }
-    private boolean isFocusedInputClickedOutside(MotionEvent event) {
-        if (focusedInput != null && focusedInput.isFocusableInTouchMode()) {
-            Rect outRect = new Rect();
-            focusedInput.getGlobalVisibleRect(outRect);
-            return !outRect.contains((int)event.getRawX(), (int)event.getRawY());
-        }
-        return false;
-    }
-    private void unfocusInput() {
-        if (focusedInput != null) {
-            focusedInput.clearFocus();
-            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(focusedInput.getWindowToken(), 0);
-        }
-    }
+
 
 
 

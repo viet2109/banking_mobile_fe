@@ -32,9 +32,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class SignUp extends AppCompatActivity {
-    private View focusedInput;
-    private TextInputLayout name_input, phone_input, password_input, repeat_password_input;
+public class SignUp extends BaseActivity {
+    private TextInputLayout name_input, email_input, password_input, repeat_password_input;
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -48,18 +47,18 @@ public class SignUp extends AppCompatActivity {
         TextView sign_in_link = findViewById(R.id.auth_button);
 
         name_input = findViewById(R.id.name);
-        phone_input = findViewById(R.id.phone);
+        email_input = findViewById(R.id.email);
         password_input = findViewById(R.id.password);
         repeat_password_input = findViewById(R.id.repeat_password);
 
         final String[] name_input_value = {""};
-        final String[] phone_input_value = {""};
+        final String[] email_input_value = {""};
         final String[] password_input_value = {""};
         final String[] repeat_password_input_value = {""};
 
         //Set content texts
         header_title.setText("Create an account");
-        header_description.setText("Welcome friend, enter your details so lets get started in ordering food.");
+        header_description.setText("Welcome friend, enter your details to continue.");
         sign_up_button.setText("Create an account");
         sign_in_link.setText("Login to my account");
 
@@ -81,7 +80,7 @@ public class SignUp extends AppCompatActivity {
                 name_input.setError(null);
             }
         });
-        Objects.requireNonNull(phone_input.getEditText()).addTextChangedListener(new TextWatcher() {
+        Objects.requireNonNull(email_input.getEditText()).addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -94,8 +93,8 @@ public class SignUp extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                phone_input_value[0] = s.toString();
-                phone_input.setError(null);
+                email_input_value[0] = s.toString();
+                email_input.setError(null);
             }
         });
         Objects.requireNonNull(password_input.getEditText()).addTextChangedListener(new TextWatcher() {
@@ -142,8 +141,8 @@ public class SignUp extends AppCompatActivity {
         //hanlde sign_up button
         sign_up_button.setOnClickListener(view -> {
 
-            ValidationManager.getInstance().checkEmpty(phone_input, password_input, repeat_password_input, name_input)
-                    .checkEmail(phone_input)
+            ValidationManager.getInstance().checkEmpty(email_input, password_input, repeat_password_input, name_input)
+                    .checkEmail(email_input)
                     .checkPassword(password_input)
                     .matchPassword(password_input, repeat_password_input);
 
@@ -152,7 +151,7 @@ public class SignUp extends AppCompatActivity {
                 User user = User
                         .builder()
                         .name(name_input.getEditText().getText().toString())
-                        .email(phone_input.getEditText().getText().toString())
+                        .email(email_input.getEditText().getText().toString())
                         .password(password_input.getEditText().getText().toString())
                         .build();
                 register(user);
@@ -168,33 +167,7 @@ public class SignUp extends AppCompatActivity {
     }
 
 
-    @Override
-    public boolean dispatchTouchEvent(MotionEvent event) {
-        if (event.getAction() == MotionEvent.ACTION_DOWN) {
-            focusedInput = getCurrentFocus();
-            if (isFocusedInputClickedOutside(event)) {
-                unfocusInput();
-            }
-        }
-        return super.dispatchTouchEvent(event);
-    }
 
-    private boolean isFocusedInputClickedOutside(MotionEvent event) {
-        if (focusedInput != null && focusedInput.isFocusableInTouchMode()) {
-            Rect outRect = new Rect();
-            focusedInput.getGlobalVisibleRect(outRect);
-            return !outRect.contains((int) event.getRawX(), (int) event.getRawY());
-        }
-        return false;
-    }
-
-    private void unfocusInput() {
-        if (focusedInput != null) {
-            focusedInput.clearFocus();
-            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(focusedInput.getWindowToken(), 0);
-        }
-    }
 
     private void register(User user) {
         Log.d("Register", user.toString());
