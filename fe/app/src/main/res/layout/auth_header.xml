@@ -39,7 +39,7 @@
         android:layout_marginStart="44dp"
         android:layout_marginEnd="44dp"
         android:layout_marginTop="17dp"
-        android:text="Good to see you again, enter your details below to continue ordering."
+        android:text="Good to see you again, enter your details below to continue."
         android:textSize="14sp"
         android:textColor="@color/text_black_semi"
         tools:ignore="HardcodedText" />

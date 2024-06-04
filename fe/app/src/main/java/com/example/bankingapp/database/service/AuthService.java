@@ -17,4 +17,5 @@ public interface AuthService {
 
     @POST("auth/register")
     Call<User> register(@Body User user);
+
 }
