@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="deploymentTargetDropDown">
+    <value>
+      <entry key="Exchange">
+        <State />
+      </entry>
+      <entry key="ForgotPassword">
+        <State />
+      </entry>
+      <entry key="PaymentHistory">
+        <State />
+      </entry>
+      <entry key="SignUp">
+        <State />
+      </entry>
+      <entry key="app">
+        <State />
+      </entry>
+      <entry key="paybillWater">
+        <State />
+      </entry>
+    </value>
+  </component>
+</project>

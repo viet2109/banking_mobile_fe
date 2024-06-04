@@ -165,10 +165,16 @@ public class SignUp extends BaseActivity {
 
 
     }
-
-
-
-
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent event) {
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            focusedInput = getCurrentFocus();
+            if (isFocusedInputClickedOutside(event)) {
+                unfocusInput();
+            }
+        }
+        return super.dispatchTouchEvent(event);
+    }
     private void register(User user) {
         Log.d("Register", user.toString());
         AuthService authService = Database.getClient().create(AuthService.class);
