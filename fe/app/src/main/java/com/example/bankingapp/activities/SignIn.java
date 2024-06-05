@@ -107,6 +107,7 @@ public class SignIn extends BaseActivity {
     }
 
     private void login(User user) {
+        // tao 1 instance của AuthService
         AuthService authService = Database.getClient().create(AuthService.class);
         Call<User> call = authService.login(user);
         call.enqueue(new Callback<User>() {
