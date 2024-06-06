@@ -9,6 +9,7 @@ import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 public interface AuthService {
 
@@ -17,5 +18,12 @@ public interface AuthService {
 
     @POST("auth/register")
     Call<User> register(@Body User user);
+
+    @POST("currency/exchange")
+    Call<Integer> exchangeCurrency(@Query("fromCurrency") String fromCurrency,
+                                   @Query("toCurrency") String toCurrency,
+                                   @Query("amount") int amount);
+
+
 
 }
