@@ -3,16 +3,23 @@ package com.example.bankingapp.fragment;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.example.bankingapp.R;
+import com.example.bankingapp.activities.Exchange;
+import com.example.bankingapp.activities.PayBill;
 import com.example.bankingapp.activities.Transfer;
+import com.example.bankingapp.storage.UserStorage;
 
+import java.io.IOException;
+import java.security.GeneralSecurityException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -24,6 +31,7 @@ import java.util.List;
  */
 public class Home extends Fragment {
 
+    private UserStorage userStorage;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -68,14 +76,26 @@ public class Home extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+        try {
+            userStorage = new UserStorage(requireContext());
+        } catch (GeneralSecurityException | IOException e) {
+            throw new RuntimeException(e);
+        }
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         transfer = view.findViewById(R.id.transfer);
         report = view.findViewById(R.id.report);
         pay_bill = view.findViewById(R.id.pay_bill);
         exchange = view.findViewById(R.id.exchange);
+        TextView textView = view.findViewById(R.id.textView3);
+        TextView card_name = view.findViewById(R.id.card_name);
+
+        textView.setText(String.format("Hi, %s", userStorage.getUser().getName()));
+        card_name.setText(userStorage.getUser().getName());
+
+
 
         listCard = new ArrayList<CardView>(Arrays.asList(transfer, report, pay_bill, exchange));
 
@@ -88,11 +108,11 @@ public class Home extends Fragment {
 //                    Intent intent = new Intent(getActivity(), TransferReport.class);
 //                    startActivity(intent);
                 } else if (v.getId() == pay_bill.getId()) {
-//                    Intent intent = new Intent(getActivity(), PayBill.class);
-//                    startActivity(intent);
+                    Intent intent = new Intent(getActivity(), PayBill.class);
+                    startActivity(intent);
                 } else if (v.getId() == exchange.getId()) {
-//                    Intent intent = new Intent(getActivity(), Exchange.class);
-//                    startActivity(intent);
+                    Intent intent = new Intent(getActivity(), Exchange.class);
+                    startActivity(intent);
                 }
             });
         });

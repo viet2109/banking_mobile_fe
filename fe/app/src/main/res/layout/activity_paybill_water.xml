@@ -5,16 +5,22 @@
     android:layout_height="match_parent"
     android:background="@android:color/white"
     android:orientation="vertical"
+    tools:context=".activities.PayBillWater"
     android:padding="16dp">
 
-    <TextView
-        android:id="@+id/title"
+    <Button
+        android:id="@+id/back_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:text="&lt; Water bill"
-        android:textSize="26sp"
-        android:textStyle="bold" />
+        android:background="@color/transparent"
+        android:drawableLeft="@drawable/arrow_back_black"
+        android:text="Water bill"
+        android:textColor="#333"
+        android:layout_marginLeft="-25dp"
+        android:textSize="20dp"
+        >
+
+    </Button>
 
     <LinearLayout
         android:layout_width="match_parent"

@@ -1,6 +1,7 @@
 package com.example.bankingapp.activities;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -15,10 +16,12 @@ import com.example.bankingapp.R;
 import com.example.bankingapp.database.Database;
 import com.example.bankingapp.database.models.User;
 import com.example.bankingapp.database.service.AuthService;
+import com.example.bankingapp.storage.UserStorage;
 import com.example.bankingapp.utils.ValidationManager;
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.io.IOException;
+import java.security.GeneralSecurityException;
 import java.util.Objects;
 
 import retrofit2.Call;
@@ -115,6 +118,13 @@ public class SignIn extends BaseActivity {
                          public void onResponse(@NonNull Call<User> call, @NonNull Response<User> response) {
                              if (response.isSuccessful()) {
                                  Toast.makeText(getApplicationContext(), "Login successful!", Toast.LENGTH_SHORT).show();
+                                 try {
+                                     UserStorage userStorage = new UserStorage(getApplicationContext());
+                                     User user  = response.body();
+                                     userStorage.saveUser(user);
+                                 } catch (GeneralSecurityException | IOException e) {
+                                     throw new RuntimeException(e);
+                                 }
 
                                  Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                                  finish();

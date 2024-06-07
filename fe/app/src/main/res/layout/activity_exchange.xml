@@ -4,21 +4,19 @@
     android:orientation="vertical"
     android:padding="16dp">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+  <Button
+      android:id="@+id/back_button"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:background="@color/transparent"
+      android:drawableLeft="@drawable/arrow_back_black"
+      android:text="Exchange"
+      android:textColor="#333"
+      android:layout_marginLeft="-25dp"
+      android:textSize="20dp"
+      >
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:layout_weight="1"
-            android:text="&lt; Exchange"
-            android:textAlignment="textStart"
-            android:textSize="26sp"
-            android:textStyle="bold" />
-    </LinearLayout>
+  </Button>
 
     <LinearLayout
         android:layout_width="match_parent"

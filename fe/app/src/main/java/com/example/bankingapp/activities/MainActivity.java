@@ -16,6 +16,7 @@ public class MainActivity extends BaseActivity {
 
     private BottomNavigationView bottomNavigationView;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -25,6 +25,10 @@
             android:exported="true"
             android:windowSoftInputMode="adjustPan" />
         <activity
+            android:name=".activities.PayBill"
+            android:exported="true"
+             />
+        <activity
             android:name=".activities.Splash"
             android:exported="true">
             <intent-filter>
@@ -58,7 +62,7 @@
             android:name=".activities.PaymentHistory"
             android:exported="true" />
         <activity
-            android:name=".activities.paybillWater"
+            android:name=".activities.PayBillWater"
             android:exported="true" />
         <activity
             android:name=".activities.MainActivity"

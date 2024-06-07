@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    tools:context=".activities.PayBill"
     android:padding="16dp">
 <!--    tools:context=".PayBillActivity">-->
 
@@ -41,6 +42,7 @@
 
             <!-- Electric Bill -->
             <LinearLayout
+                android:id="@+id/electric_bill"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
@@ -76,6 +78,7 @@
 
             <!-- Water Bill -->
             <LinearLayout
+                android:id="@+id/water_bill"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"

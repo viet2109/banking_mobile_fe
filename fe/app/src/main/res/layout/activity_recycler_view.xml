@@ -4,18 +4,23 @@
     android:layout_height="match_parent"
     android:padding="16dp">
 
-    <TextView
-        android:id="@+id/textView3"
+    <Button
+        android:id="@+id/back_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="&lt; Payment History"
-        android:textSize="26sp"
-        android:layout_marginBottom="15sp"
-        android:textStyle="bold" />
+        android:background="@color/transparent"
+        android:drawableLeft="@drawable/arrow_back_black"
+        android:text="Payment History"
+        android:textColor="#333"
+        android:layout_marginLeft="-28dp"
+        android:textSize="20dp"
+        >
+
+    </Button>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/textView3"/>
+        android:layout_below="@id/back_button"/>
 </RelativeLayout>

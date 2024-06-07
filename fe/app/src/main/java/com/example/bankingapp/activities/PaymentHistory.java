@@ -13,14 +13,15 @@ import com.example.bankingapp.database.models.PaymentHistoryItem;
 import java.util.Arrays;
 import java.util.List;
 
-public class PaymentHistory extends AppCompatActivity {
+public class PaymentHistory extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recycler_view);
-
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
+        setupBackButton();
+
 
         // Giả sử chúng ta có userId là "user1"
         String userId = "user1";
