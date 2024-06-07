@@ -273,7 +273,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="OTP"
-                        android:inputType="text"
+                        android:inputType="numberPassword"
                         tools:ignore="HardcodedText" />
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -291,6 +291,7 @@
             </LinearLayout>
 
             <Button
+                android:id="@+id/confirm_btn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Confirm"

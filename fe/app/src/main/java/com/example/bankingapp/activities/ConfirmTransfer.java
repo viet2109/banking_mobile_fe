@@ -3,6 +3,8 @@ package com.example.bankingapp.activities;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -23,7 +25,7 @@ public class ConfirmTransfer extends BaseActivity {
 
     private Transition transition;
     private TextInputLayout fromAccountInput, toAccountInput, amountInput, contentInput, bankInput, otpInput, feeInput, cardNumberInput;
-    private Button getOtpBtn;
+    private Button getOtpBtn, confirmBtn;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,6 +48,7 @@ public class ConfirmTransfer extends BaseActivity {
         otpInput = findViewById(R.id.otp);
         cardNumberInput = findViewById(R.id.card_number);
         getOtpBtn = findViewById(R.id.otp_btn);
+        confirmBtn = findViewById(R.id.confirm_btn);
 
         Intent intent = getIntent();
         transition = (Transition) intent.getSerializableExtra("transition");
@@ -59,10 +62,40 @@ public class ConfirmTransfer extends BaseActivity {
         Objects.requireNonNull(contentInput.getEditText()).setText(transition.getMessage());
         Objects.requireNonNull(bankInput.getEditText()).setText(transition.getReceiver().getBank());
         Objects.requireNonNull(feeInput.getEditText()).setText(String.valueOf(transition.getFee()));
+        Objects.requireNonNull(otpInput.getEditText()).setTransformationMethod(null);
+        Objects.requireNonNull(otpInput.getEditText()).addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                confirmBtn.setEnabled(!s.toString().trim().isEmpty());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
 
         getOtpBtn.setOnClickListener(v -> {
 
             showConfirmationGetOtpDialog();
+
+        });
+
+        confirmBtn.setOnClickListener(v -> {
+            //check validate of otp
+
+            //call api to transfer money
+
+            Intent intent1 = new Intent(this, SuccessTransfer.class);
+            intent1.putExtra("name", toAccountInput.getEditText().getText().toString());
+            intent1.putExtra("amount", amountInput.getEditText().getText().toString());
+
+            startActivity(intent1);
 
         });
 
@@ -82,7 +115,7 @@ public class ConfirmTransfer extends BaseActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 // Hành động khi người dùng nhấn Yes
-                // Ví dụ: thực hiện hành động cần thiết
+                // gọi api để gửi otp đến email của người nhận
                 performAction();
             }
         });
@@ -103,7 +136,9 @@ public class ConfirmTransfer extends BaseActivity {
     }
 
     private void performAction() {
-        // Thực hiện hành động cần thiết khi người dùng xác nhận
-        // Ví dụ: Xóa một mục, gửi dữ liệu, v.v.
+        //gọi api
+
+        //trả về kết quả
+
     }
 }
