@@ -7,14 +7,19 @@
     android:orientation="vertical"
     android:padding="16dp">
 
-    <TextView
-        android:id="@+id/title"
+    <Button
+        android:id="@+id/back_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:text="&lt; Water bill"
-        android:textSize="26sp"
-        android:textStyle="bold" />
+        android:layout_marginStart="-27dp"
+        android:layout_marginTop="16dp"
+        android:background="@color/transparent"
+        android:drawableLeft="@drawable/arrow_back_black"
+        android:text="Water Bill"
+        android:textColor="#333333"
+        tools:ignore="MissingConstraints">
+
+    </Button>
 
     <LinearLayout
         android:layout_width="match_parent"
