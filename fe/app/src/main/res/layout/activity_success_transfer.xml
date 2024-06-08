@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginHorizontal="16dp"
+    tools:context=".activities.SuccessTransfer">
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="-25dp"
+        android:background="@color/transparent"
+        android:drawableLeft="@drawable/arrow_back_black"
+        android:text="Go to home"
+        android:textColor="@color/text_black_bold" />
+
+    <ImageView
+        android:id="@+id/imageView8"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/button"
+        android:layout_marginTop="10dp"
+        android:src="@drawable/success_transfer" />
+
+    <TextView
+        android:id="@+id/textView10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/imageView8"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:text="Transfer successful!"
+        android:textColor="@color/primary" />
+
+
+    <TextView
+        android:id="@+id/textView14"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView10"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"
+        android:text="You have successfully transferred $1,000 to Amanda!"
+        android:textAlignment="center"
+        android:textColor="@color/text_black_bold">
+
+    </TextView>
+
+    <Button
+        android:id="@+id/continue_transfer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView14"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"
+        android:text="Continue transfer"
+        android:textColor="@color/white" />
+
+
+</RelativeLayout>

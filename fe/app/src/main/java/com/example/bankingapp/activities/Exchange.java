@@ -15,7 +15,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class Exchange extends AppCompatActivity {
+public class Exchange extends BaseActivity {
 
     private String[] currencies = {"VND", "HK$", "USA", "NT$", "JS"};
     private Spinner fromCurrencySelected;
@@ -27,6 +27,8 @@ public class Exchange extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exchange);
+
+        setupBackButton();
 
         fromCurrencySelected = findViewById(R.id.from_currency_spinner);
         toCurrencySelected = findViewById(R.id.to_currency_spinner);

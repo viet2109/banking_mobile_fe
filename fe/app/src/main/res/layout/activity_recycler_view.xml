@@ -9,13 +9,13 @@
         android:id="@+id/back_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="-27dp"
-        android:layout_marginTop="16dp"
         android:background="@color/transparent"
         android:drawableLeft="@drawable/arrow_back_black"
-        android:text="Payment history"
-        android:textColor="#333333"
-        tools:ignore="MissingConstraints">
+        android:text="Payment History"
+        android:textColor="#333"
+        android:layout_marginLeft="-28dp"
+        android:textSize="20dp"
+        >
 
     </Button>
 

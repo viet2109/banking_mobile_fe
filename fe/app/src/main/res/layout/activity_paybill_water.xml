@@ -5,19 +5,20 @@
     android:layout_height="match_parent"
     android:background="@android:color/white"
     android:orientation="vertical"
+    tools:context=".activities.PayBillWater"
     android:padding="16dp">
 
     <Button
         android:id="@+id/back_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="-27dp"
-        android:layout_marginTop="16dp"
         android:background="@color/transparent"
         android:drawableLeft="@drawable/arrow_back_black"
-        android:text="Water Bill"
-        android:textColor="#333333"
-        tools:ignore="MissingConstraints">
+        android:text="Water bill"
+        android:textColor="#333"
+        android:layout_marginLeft="-25dp"
+        android:textSize="20dp"
+        >
 
     </Button>
 

@@ -37,6 +37,7 @@ dependencies {
     implementation libs.retrofit
     implementation libs.converter.gson
     implementation libs.lombok
+    implementation libs.security.crypto
     annotationProcessor libs.lombok
     testImplementation libs.junit
     androidTestImplementation libs.ext.junit
