@@ -16,7 +16,7 @@
         android:layout_marginTop="16dp"
         android:background="@color/transparent"
         android:drawableLeft="@drawable/arrow_back_black"
-        android:text="Transfer"
+        android:text="@string/transfer"
         android:textColor="#333333"
         tools:ignore="MissingConstraints">
 
@@ -68,7 +68,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/user_credit"
                 android:layout_marginTop="10dp"
-                android:text="Available balance : 10,000$"
+                android:text="Available balance: 10,000$"
 
                 android:textColor="@color/primary">
 
@@ -131,7 +131,7 @@
                                 android:layout_height="43dp"
                                 android:ellipsize="end"
                                 android:maxLines="2"
-                                android:text="Transfer to the same bank"
+                                android:text="@string/transfer_to_the_same_bank"
                                 android:textColor="@color/white">
 
                             </TextView>
@@ -168,7 +168,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Transfer to another bank"
+                                android:text="@string/transfer_to_another_bank"
                                 android:textColor="@color/white">
 
                             </TextView>
@@ -245,9 +245,9 @@
                             android:id="@+id/bank"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:hint="Choose bank"
+                            android:hint="@string/bank"
                             android:inputType="none"
-                            tools:ignore="HardcodedText" />
+                             />
                     </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -272,9 +272,9 @@
 
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:hint="Card number"
+                            android:hint="@string/card_number"
                             android:inputType="text"
-                            tools:ignore="HardcodedText" />
+                             />
                     </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -299,10 +299,9 @@
 
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:hint="Amount"
+                            android:hint="@string/amount"
                             android:inputType="number"
-
-                            tools:ignore="HardcodedText" />
+                           />
                     </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -327,16 +326,16 @@
 
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:hint="Content"
+                            android:hint="@string/content"
                             android:inputType="text"
-                            tools:ignore="HardcodedText" />
+                            />
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <Button
                         android:id="@+id/confirm_btn"
                         android:layout_width="match_parent"
                         android:layout_height="56dp"
-                        android:text="Confirm">
+                        android:text="@string/confirm">
 
                     </Button>
 

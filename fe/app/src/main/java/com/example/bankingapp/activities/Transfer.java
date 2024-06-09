@@ -19,8 +19,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.bankingapp.R;
 import com.example.bankingapp.adapters.HistoryTransAdapter;
+import com.example.bankingapp.database.dto.UserDTO;
 import com.example.bankingapp.database.models.Transition;
 import com.example.bankingapp.database.models.User;
+import com.example.bankingapp.storage.UserStorage;
 import com.example.bankingapp.utils.ValidationManager;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -48,7 +50,7 @@ public class Transfer extends BaseActivity implements HistoryTransAdapter.OnItem
 
     private ArrayList<CardView> transTypeList;
 
-    private String[] bankList = {"Ngân hàng A", "Ngân hàng B", "Ngân hàng C"};
+    private String[] bankList = {"Matcha Bank", "BIDV Bank", "Vietcom Bank"};
 
     private TextInputLayout bankInput, cardNumberInput, amountInput, contentInput;
     private AutoCompleteTextView autoCompleteTextView;
@@ -161,23 +163,31 @@ public class Transfer extends BaseActivity implements HistoryTransAdapter.OnItem
 
             // redirect confirm activity
             // actually we need get sender user from sharepreference with key "currentUser"
-            User sender = User.builder()
-                    .name("viet")
-                    .cardNumber("123456789")
-                    .build();
+            UserStorage userStorage = null;
+            try {
+                userStorage = new UserStorage(this);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 
-            User receiver = User.builder()
+            assert userStorage != null;
+            UserDTO sender = userStorage.getUser();
+
+            UserDTO receiver = UserDTO.builder()
                     .name("John")
                     .bank(autoCompleteTextView.getText().toString())
-                    .cardNumber(cardNumberInput.getEditText().getText().toString())
+                    .cardNumber(Objects.requireNonNull(cardNumberInput.getEditText()).getText().toString())
                     .build();
+
             Transition transition = Transition.builder()
                     .sender(sender)
                     .receiver(receiver)
-                    .amount(Double.parseDouble(amountInput.getEditText().getText().toString()))
-                    .message(contentInput.getEditText().getText().toString())
+                    .amount(Double.parseDouble(Objects.requireNonNull(amountInput.getEditText()).getText().toString()))
+                    .message(Objects.requireNonNull(contentInput.getEditText()).getText().toString())
                     .time(System.currentTimeMillis())
                     .build();
+
+
 
             Intent intent = new Intent(this, ConfirmTransfer.class);
             intent.putExtra("transition", transition);

@@ -15,7 +15,7 @@
         android:layout_marginLeft="-28dp"
         android:background="@color/transparent"
         android:drawableLeft="@drawable/arrow_back_black"
-        android:text="Confirm"
+        android:text="@string/confirm"
         android:textColor="#333"
         android:textSize="20sp">
 
@@ -208,7 +208,7 @@
 
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Content"
+                    android:hint="@string/content"
                     android:inputType="text"
                     tools:ignore="HardcodedText" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -236,7 +236,7 @@
 
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Amount"
+                    android:hint="@string/amount"
                     android:inputType="text"
                     tools:ignore="HardcodedText" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -294,7 +294,7 @@
                 android:id="@+id/confirm_btn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Confirm"
+                android:text="@string/confirm"
                 android:enabled="false"
                 android:layout_marginTop="22dp"
                 >

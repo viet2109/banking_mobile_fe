@@ -5,27 +5,37 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.bankingapp.R;
+import com.example.bankingapp.database.Database;
+import com.example.bankingapp.database.dto.TransitionDTO;
 import com.example.bankingapp.database.models.Transition;
+import com.example.bankingapp.database.service.TransferService;
+import com.example.bankingapp.storage.UserStorage;
 import com.google.android.material.textfield.TextInputLayout;
 
+import java.io.IOException;
 import java.util.Objects;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ConfirmTransfer extends BaseActivity {
 
     private Transition transition;
     private TextInputLayout fromAccountInput, toAccountInput, amountInput, contentInput, bankInput, otpInput, feeInput, cardNumberInput;
     private Button getOtpBtn, confirmBtn;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -90,12 +100,51 @@ public class ConfirmTransfer extends BaseActivity {
             //check validate of otp
 
             //call api to transfer money
+            UserStorage userStorage = null;
+            try {
+                userStorage = new UserStorage(this);
+            } catch (Exception ignored) {
 
-            Intent intent1 = new Intent(this, SuccessTransfer.class);
-            intent1.putExtra("name", toAccountInput.getEditText().getText().toString());
-            intent1.putExtra("amount", amountInput.getEditText().getText().toString());
+            }
 
-            startActivity(intent1);
+            String token = userStorage.getToken();
+
+            TransitionDTO transitionDTO = TransitionDTO.builder()
+                    .sender(transition.getSender().getCardNumber())
+                    .receiver(transition.getReceiver().getCardNumber())
+                    .amount(transition.getAmount())
+                    .build();
+            TransferService transferService = Database.getClient().create(TransferService.class);
+            Call<Object> call = transferService.transfer("Bearer " + token, transitionDTO);
+
+            call.enqueue(new Callback<Object>() {
+                @Override
+                public void onResponse(Call<Object> call, Response<Object> response) {
+                    Log.d("ERROR", "Error: " + token);
+
+                    if (response.isSuccessful()) {
+                        Intent intent1 = new Intent(getApplicationContext(), SuccessTransfer.class);
+                        intent1.putExtra("name", toAccountInput.getEditText().getText().toString());
+                        intent1.putExtra("amount", amountInput.getEditText().getText().toString());
+                        startActivity(intent1);
+                    } else {
+                        // Handle error response
+                        assert response.errorBody() != null;
+                        try {
+                            Toast.makeText(getApplicationContext(), response.errorBody().string(), Toast.LENGTH_SHORT).show();
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<Object> call, Throwable t) {
+                    Toast.makeText(getApplicationContext(), "An error occurred!!!", Toast.LENGTH_SHORT).show();
+                    Log.e("ERROR", "Error: " + t.getMessage(), t);
+                }
+            });
+
 
         });
 

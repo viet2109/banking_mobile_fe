@@ -1,16 +1,29 @@
 package com.example.bankingapp.fragment;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.bankingapp.R;
+import com.example.bankingapp.activities.Language;
+import com.example.bankingapp.database.dto.UserDTO;
+import com.example.bankingapp.storage.UserStorage;
 
+import java.util.Locale;
 import java.util.Objects;
 
 /**
@@ -20,12 +33,10 @@ import java.util.Objects;
  */
 public class Setting extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+    private TextView lang;
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
     private String mParam1;
     private Button backBtn;
     private String mParam2;
@@ -34,15 +45,6 @@ public class Setting extends Fragment {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment Setting.
-     */
-    // TODO: Rename and change types and number of parameters
     public static Setting newInstance(String param1, String param2) {
         Setting fragment = new Setting();
         Bundle args = new Bundle();
@@ -68,9 +70,32 @@ public class Setting extends Fragment {
 
         backBtn = view.findViewById(R.id.setting_back);
         backBtn.setOnClickListener(v -> {
+            Log.d("TAG", "fragment: " + requireActivity().getSupportFragmentManager().getBackStackEntryCount());
+
             requireActivity().getSupportFragmentManager().popBackStack();
         });
-        // Inflate the layout for this fragment
+
+        UserStorage userStorage = null;
+        try {
+            userStorage = new UserStorage(requireContext());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        assert userStorage != null;
+        String userName = userStorage.getUser().getName();
+
+        TextView name = view.findViewById(R.id.setting_name);
+        name.setText(userName);
+
+        lang = view.findViewById(R.id.setting_language);
+        lang.setOnClickListener(v -> {
+            Intent intent = new Intent(getActivity(), Language.class);
+            startActivity(intent);
+        });
+
         return view;
     }
+
+
 }

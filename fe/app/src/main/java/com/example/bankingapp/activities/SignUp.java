@@ -57,10 +57,10 @@ public class SignUp extends BaseActivity {
         final String[] repeat_password_input_value = {""};
 
         //Set content texts
-        header_title.setText("Create an account");
-        header_description.setText("Welcome friend, enter your details to continue.");
-        sign_up_button.setText("Create an account");
-        sign_in_link.setText("Login to my account");
+        header_title.setText(R.string.register);
+        header_description.setText(R.string.register_description);
+        sign_up_button.setText(R.string.register);
+        sign_in_link.setText(R.string.login);
 
         //get all data input
 
@@ -154,7 +154,7 @@ public class SignUp extends BaseActivity {
                         .email(email_input.getEditText().getText().toString())
                         .password(password_input.getEditText().getText().toString())
                         .build();
-                register(user);
+//                register(user);
             } else {
                 Log.d("TAG", "failed");
 
@@ -166,38 +166,38 @@ public class SignUp extends BaseActivity {
 
     }
 
-    private void register(User user) {
-        Log.d("Register", user.toString());
-        AuthService authService = Database.getClient().create(AuthService.class);
-        Call<User> call = authService.register(user);
-        Log.d("TAG", "register");
-        call.enqueue(new Callback<User>() {
-                         @Override
-                         public void onResponse(@NonNull Call<User> call, @NonNull Response<User> response) {
-                             if (response.isSuccessful()) {
-                                 Toast.makeText(getApplicationContext(), "Register successful!", Toast.LENGTH_SHORT).show();
-                                 Intent intent = new Intent(getApplicationContext(), SignIn.class);
-                                 startActivity(intent);
-                             } else {
-                                 try {
-                                     assert response.errorBody() != null;
-                                     String errorResponse = response.errorBody().string();
-                                     Log.e("TAG", "Error response: " + errorResponse);
-                                     Toast.makeText(getApplicationContext(), errorResponse, Toast.LENGTH_SHORT).show();
-
-                                 } catch (IOException e) {
-                                     e.printStackTrace();
-                                     Toast.makeText(getApplicationContext(), "Failed to read error response", Toast.LENGTH_SHORT).show();
-                                 }
-                             }
-                         }
-
-                         @Override
-                         public void onFailure(@NonNull Call<User> call, @NonNull Throwable t) {
-                             Toast.makeText(getApplicationContext(), "An error occurred!!!", Toast.LENGTH_SHORT).show();
-                         }
-                     }
-        );
-    }
+//    private void register(User user) {
+//        Log.d("Register", user.toString());
+//        AuthService authService = Database.getClient().create(AuthService.class);
+//        Call<User> call = authService.register(user);
+//        Log.d("TAG", "register");
+//        call.enqueue(new Callback<User>() {
+//                         @Override
+//                         public void onResponse(@NonNull Call<User> call, @NonNull Response<User> response) {
+//                             if (response.isSuccessful()) {
+//                                 Toast.makeText(getApplicationContext(), "Register successful!", Toast.LENGTH_SHORT).show();
+//                                 Intent intent = new Intent(getApplicationContext(), SignIn.class);
+//                                 startActivity(intent);
+//                             } else {
+//                                 try {
+//                                     assert response.errorBody() != null;
+//                                     String errorResponse = response.errorBody().string();
+//                                     Log.e("TAG", "Error response: " + errorResponse);
+//                                     Toast.makeText(getApplicationContext(), errorResponse, Toast.LENGTH_SHORT).show();
+//
+//                                 } catch (IOException e) {
+//                                     e.printStackTrace();
+//                                     Toast.makeText(getApplicationContext(), "Failed to read error response", Toast.LENGTH_SHORT).show();
+//                                 }
+//                             }
+//                         }
+//
+//                         @Override
+//                         public void onFailure(@NonNull Call<User> call, @NonNull Throwable t) {
+//                             Toast.makeText(getApplicationContext(), "An error occurred!!!", Toast.LENGTH_SHORT).show();
+//                         }
+//                     }
+//        );
+//    }
 
 }

@@ -7,8 +7,7 @@
     android:background="#F8FBFF"
     tools:context=".activities.SignIn">
 
-    <include layout="@layout/auth_header"
-        />
+    <include layout="@layout/auth_header" />
 
     <LinearLayout
         android:id="@+id/form"
@@ -24,19 +23,19 @@
             android:id="@+id/email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:focusableInTouchMode="true"
+            android:orientation="horizontal"
             app:boxCornerRadiusBottomEnd="10dp"
             app:boxCornerRadiusBottomStart="10dp"
             app:boxCornerRadiusTopEnd="10dp"
             app:boxCornerRadiusTopStart="10dp"
-            app:errorEnabled="true"
             app:boxStrokeColor="@color/accent"
-            app:hintTextColor="@color/accent"
-            app:cursorColor="@color/accent"
             app:boxStrokeErrorColor="@color/primary"
+            app:cursorColor="@color/accent"
             app:cursorErrorColor="@color/primary"
+            app:errorEnabled="true"
             app:errorTextColor="@color/primary"
-            android:focusableInTouchMode="true"
-            >
+            app:hintTextColor="@color/accent">
 
             <com.google.android.material.textfield.TextInputEditText
 
@@ -52,32 +51,30 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
+            android:focusableInTouchMode="true"
             app:boxCornerRadiusBottomEnd="10dp"
             app:boxCornerRadiusBottomStart="10dp"
             app:boxCornerRadiusTopEnd="10dp"
             app:boxCornerRadiusTopStart="10dp"
-            app:passwordToggleDrawable="@drawable/password_toggle"
-            app:passwordToggleEnabled="true"
-            app:errorEnabled="true"
             app:boxStrokeColor="@color/accent"
-            app:hintTextColor="@color/accent"
-            app:cursorColor="@color/accent"
             app:boxStrokeErrorColor="@color/primary"
+            app:cursorColor="@color/accent"
             app:cursorErrorColor="@color/primary"
+            app:errorEnabled="true"
             app:errorTextColor="@color/primary"
-            android:focusableInTouchMode="true"
-            >
+            app:hintTextColor="@color/accent"
+            app:passwordToggleDrawable="@drawable/password_toggle"
+            app:passwordToggleEnabled="true">
 
             <com.google.android.material.textfield.TextInputEditText
 
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
 
-                android:hint="Password"
+                android:hint="@string/password"
 
 
-                android:inputType="textPassword"
-                tools:ignore="HardcodedText" />
+                android:inputType="textPassword" />
         </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -85,11 +82,11 @@
             android:id="@+id/forgot_password"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/primary"
             android:layout_gravity="end"
             android:layout_marginTop="10dp"
-            android:text="Forgot your password?"
-            tools:ignore="HardcodedText" />
+            android:text="@string/forgot_password"
+            android:textColor="@color/primary"
+             />
 
     </LinearLayout>
 
@@ -98,8 +95,7 @@
         layout="@layout/auth_footer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        />
+        android:layout_alignParentBottom="true" />
 
 
 </RelativeLayout>

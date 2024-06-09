@@ -1,6 +1,8 @@
 package com.example.bankingapp.database.service;
 
-import com.example.bankingapp.database.models.User;
+
+import com.example.bankingapp.database.dto.Response;
+import com.example.bankingapp.database.dto.UserDTO;
 
 import java.util.List;
 
@@ -14,16 +16,15 @@ import retrofit2.http.Query;
 public interface AuthService {
 
     @POST("auth/login")
-    Call<User> login(@Body User user);
+    Call<Response.LogIn> login(@Body UserDTO.LogIn user);
 
     @POST("auth/register")
-    Call<User> register(@Body User user);
+    Call<UserDTO.Register> register(@Body UserDTO.Register user);
 
     @POST("currency/exchange")
     Call<Integer> exchangeCurrency(@Query("fromCurrency") String fromCurrency,
                                    @Query("toCurrency") String toCurrency,
                                    @Query("amount") int amount);
-
 
 
 }

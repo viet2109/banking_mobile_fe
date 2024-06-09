@@ -2,4 +2,30 @@
     <string name="app_name">Banking App</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="welcome">Welcome</string>
+    <string name="language">Language</string>
+
+    <string name="login">Login</string>
+    <string name="login_description">Good to see you again, enter your details below to continue.</string>
+    <string name="login_with_google">Sign in with Google</string>
+    <string name="register">Create an account</string>
+    <string name="transfer">Transaction</string>
+    <string name="report">Transaction report</string>
+    <string name="pay_bill">Pay the bill</string>
+    <string name="exchange">Exchange</string>
+    <string name="home">Home</string>
+    <string name="search">Search</string>
+    <string name="setting">Setting</string>
+    <string name="password">Password</string>
+    <string name="name">Name</string>
+    <string name="register_description">Welcome friend, enter your details to continue.</string>
+    <string name="repeat_password">Repeat your password</string>
+    <string name="forgot_password">Forgot your password?</string>
+    <string name="transfer_to_the_same_bank">Transfer to the same bank</string>
+    <string name="transfer_to_another_bank">Transfer to another bank</string>
+    <string name="bank">Bank</string>
+    <string name="card_number">Card number</string>
+    <string name="amount">Amount</string>
+    <string name="content">Content</string>
+    <string name="confirm">Confirm</string>
 </resources>
