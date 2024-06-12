@@ -1,17 +1,20 @@
 package com.example.bankingapp.adapters;
 
 import android.graphics.Color;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.bankingapp.R;
 import com.example.bankingapp.database.models.PaymentHistoryItem;
 
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public class PaymentHistoryAdapter extends RecyclerView.Adapter<PaymentHistoryAdapter.PaymentHistoryViewHolder> {
@@ -29,6 +32,7 @@ public class PaymentHistoryAdapter extends RecyclerView.Adapter<PaymentHistoryAd
         return new PaymentHistoryViewHolder(view);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onBindViewHolder(@NonNull PaymentHistoryViewHolder holder, int position) {
         PaymentHistoryItem item = items.get(position);
@@ -54,11 +58,16 @@ public class PaymentHistoryAdapter extends RecyclerView.Adapter<PaymentHistoryAd
             tvDate = itemView.findViewById(R.id.tvDate);
         }
 
+        @RequiresApi(api = Build.VERSION_CODES.O)
         public void bind(PaymentHistoryItem item) {
-            tvMonth.setText(item.getMonth());
+            // Sử dụng DateTimeFormatter để định dạng ngày tháng
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+            // Đặt giá trị cho các TextView
+            tvMonth.setText(String.valueOf(item.getCreateAt().getMonth()));
             tvStatus.setText(item.getStatus());
-            tvAmount.setText(item.getAmount());
-            tvDate.setText(item.getDate());
+            tvAmount.setText(String.valueOf(item.getAmount()));
+            tvDate.setText(item.getCreateAt().format(formatter)); // Sử dụng formatter để định dạng ngày tháng
 
             // Đặt màu cho trạng thái dựa vào thành công hay thất bại
             if ("Unsuccessfully".equals(item.getStatus())) {
