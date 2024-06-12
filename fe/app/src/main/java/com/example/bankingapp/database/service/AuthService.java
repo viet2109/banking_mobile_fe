@@ -3,6 +3,7 @@ package com.example.bankingapp.database.service;
 
 import com.example.bankingapp.database.dto.Response;
 import com.example.bankingapp.database.dto.UserDTO;
+import com.example.bankingapp.database.models.BillEntity;
 import com.example.bankingapp.database.models.PaymentHistoryItem;
 
 import java.util.List;
@@ -26,8 +27,11 @@ public interface AuthService {
     Call<Integer> exchangeCurrency(@Query("fromCurrency") String fromCurrency,
                                    @Query("toCurrency") String toCurrency,
                                    @Query("amount") int amount);
+
     @GET("payment/search")
     Call<List<PaymentHistoryItem>> findAll(@Query("forUser") String forUser);
 
-
+    @GET("/{code}")
+    Call<BillEntity> getBill(@Path("code") String code);
 }
+

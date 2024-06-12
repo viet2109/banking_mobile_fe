@@ -29,7 +29,7 @@ public class PayBill extends AppCompatActivity {
 //        });
 
         water_bill.setOnClickListener(v -> {
-            Intent intent = new Intent(PayBill.this, PayBillWater.class);
+            Intent intent = new Intent(PayBill.this, EnterWaterBillCode.class);
             startActivity(intent);
         });
 
