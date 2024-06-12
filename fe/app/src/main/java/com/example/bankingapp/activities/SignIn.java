@@ -1,5 +1,6 @@
 package com.example.bankingapp.activities;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -31,11 +32,16 @@ import retrofit2.Callback;
 public class SignIn extends BaseActivity {
 
     private TextInputLayout email_input, password_input;
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
+
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Loading...");
+        progressDialog.setCancelable(false);
 
         Button sign_in_button = findViewById(R.id.submit_button);
         TextView sign_up_link = findViewById(R.id.auth_button);
@@ -110,6 +116,8 @@ public class SignIn extends BaseActivity {
     }
 
     private void login(UserDTO.LogIn user) {
+
+        progressDialog.show();
         // Create an instance of AuthService
         AuthService authService = Database.getClient().create(AuthService.class);
         Call<Response.LogIn> call = authService.login(user);
@@ -117,6 +125,7 @@ public class SignIn extends BaseActivity {
         call.enqueue(new Callback<Response.LogIn>() {
             @Override
             public void onResponse(@NonNull Call<Response.LogIn> call, @NonNull retrofit2.Response<Response.LogIn> response) {
+               progressDialog.dismiss();
                 if (response.isSuccessful()) {
                     handleSuccessfulLogin(response.body());
                 } else {
@@ -126,6 +135,7 @@ public class SignIn extends BaseActivity {
 
             @Override
             public void onFailure(@NonNull Call<Response.LogIn> call, @NonNull Throwable t) {
+                progressDialog.dismiss();
                 handleFailure(t);
             }
         });

@@ -1,5 +1,6 @@
 package com.example.bankingapp.activities;
 
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -35,12 +36,17 @@ public class ConfirmTransfer extends BaseActivity {
     private Transition transition;
     private TextInputLayout fromAccountInput, toAccountInput, amountInput, contentInput, bankInput, otpInput, feeInput, cardNumberInput;
     private Button getOtpBtn, confirmBtn;
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_confirm_transfer);
+
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Loading...");
+        progressDialog.setCancelable(false);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
@@ -114,6 +120,7 @@ public class ConfirmTransfer extends BaseActivity {
                     .receiver(transition.getReceiver().getCardNumber())
                     .amount(transition.getAmount())
                     .build();
+            progressDialog.show();
             TransferService transferService = Database.getClient().create(TransferService.class);
             Call<Object> call = transferService.transfer("Bearer " + token, transitionDTO);
 
@@ -121,7 +128,7 @@ public class ConfirmTransfer extends BaseActivity {
                 @Override
                 public void onResponse(Call<Object> call, Response<Object> response) {
                     Log.d("ERROR", "Error: " + token);
-
+                    progressDialog.dismiss();
                     if (response.isSuccessful()) {
                         Intent intent1 = new Intent(getApplicationContext(), SuccessTransfer.class);
                         intent1.putExtra("name", toAccountInput.getEditText().getText().toString());
@@ -140,6 +147,7 @@ public class ConfirmTransfer extends BaseActivity {
 
                 @Override
                 public void onFailure(Call<Object> call, Throwable t) {
+                    progressDialog.dismiss();
                     Toast.makeText(getApplicationContext(), "An error occurred!!!", Toast.LENGTH_SHORT).show();
                     Log.e("ERROR", "Error: " + t.getMessage(), t);
                 }
