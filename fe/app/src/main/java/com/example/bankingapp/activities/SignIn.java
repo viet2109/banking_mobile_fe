@@ -1,7 +1,7 @@
 package com.example.bankingapp.activities;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -14,8 +14,10 @@ import androidx.annotation.NonNull;
 
 import com.example.bankingapp.R;
 import com.example.bankingapp.database.Database;
-import com.example.bankingapp.database.models.User;
+import com.example.bankingapp.database.dto.Response;
+import com.example.bankingapp.database.dto.UserDTO;
 import com.example.bankingapp.database.service.AuthService;
+import com.example.bankingapp.storage.AppStorage;
 import com.example.bankingapp.storage.UserStorage;
 import com.example.bankingapp.utils.ValidationManager;
 import com.google.android.material.textfield.TextInputLayout;
@@ -26,16 +28,20 @@ import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
-import retrofit2.Response;
 
 public class SignIn extends BaseActivity {
 
     private TextInputLayout email_input, password_input;
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
+
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Loading...");
+        progressDialog.setCancelable(false);
 
         Button sign_in_button = findViewById(R.id.submit_button);
         TextView sign_up_link = findViewById(R.id.auth_button);
@@ -97,7 +103,7 @@ public class SignIn extends BaseActivity {
 
             //check email and password to sign in
             if (ValidationManager.getInstance().isAllValid()) {
-                User user = User
+                UserDTO.LogIn user = UserDTO.LogIn
                         .builder()
                         .email(email_input.getEditText().getText().toString())
                         .password(password_input.getEditText().getText().toString())
@@ -109,47 +115,73 @@ public class SignIn extends BaseActivity {
 
     }
 
-    private void login(User user) {
-        // tao 1 instance của AuthService
+    private void login(UserDTO.LogIn user) {
+
+        progressDialog.show();
+        // Create an instance of AuthService
         AuthService authService = Database.getClient().create(AuthService.class);
-        Call<User> call = authService.login(user);
-        call.enqueue(new Callback<User>() {
-                         @Override
-                         public void onResponse(@NonNull Call<User> call, @NonNull Response<User> response) {
-                             if (response.isSuccessful()) {
-                                 Toast.makeText(getApplicationContext(), "Login successful!", Toast.LENGTH_SHORT).show();
-                                 try {
-                                     UserStorage userStorage = new UserStorage(getApplicationContext());
-                                     User user  = response.body();
-                                     userStorage.saveUser(user);
-                                 } catch (GeneralSecurityException | IOException e) {
-                                     throw new RuntimeException(e);
-                                 }
+        Call<Response.LogIn> call = authService.login(user);
 
-                                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                                 finish();
-                                 startActivity(intent);
-                             } else {
-                                 try {
-                                     assert response.errorBody() != null;
-                                     String errorResponse = response.errorBody().string();
-                                     Log.e("TAG", "Error response: " + errorResponse);
-                                     Toast.makeText(getApplicationContext(), errorResponse, Toast.LENGTH_SHORT).show();
+        call.enqueue(new Callback<Response.LogIn>() {
+            @Override
+            public void onResponse(@NonNull Call<Response.LogIn> call, @NonNull retrofit2.Response<Response.LogIn> response) {
+               progressDialog.dismiss();
+                if (response.isSuccessful()) {
+                    handleSuccessfulLogin(response.body());
+                } else {
+                    handleErrorResponse(response);
+                }
+            }
 
-                                 } catch (IOException e) {
-                                     e.printStackTrace();
-                                     Toast.makeText(getApplicationContext(), "Failed to read error response", Toast.LENGTH_SHORT).show();
-                                 }
-                             }
-                         }
-
-                         @Override
-                         public void onFailure(@NonNull Call<User> call, @NonNull Throwable t) {
-                             Toast.makeText(getApplicationContext(), "An error occurred!!!", Toast.LENGTH_SHORT).show();
-                         }
-                     }
-        );
+            @Override
+            public void onFailure(@NonNull Call<Response.LogIn> call, @NonNull Throwable t) {
+                progressDialog.dismiss();
+                handleFailure(t);
+            }
+        });
     }
 
+    private void handleSuccessfulLogin(Response.LogIn data) {
+        Toast.makeText(getApplicationContext(), "Login successful!", Toast.LENGTH_SHORT).show();
+        try {
+            saveUserData(data);
+            navigateToMainActivity();
+        } catch (GeneralSecurityException | IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void saveUserData(Response.LogIn data) throws GeneralSecurityException, IOException {
+        assert data != null;
+        UserStorage userStorage = new UserStorage(getApplicationContext());
+
+        UserDTO user = data.getUser();
+        String token = data.getToken();
+
+        userStorage.saveUser(user);
+        userStorage.saveToken(token);
+    }
+
+    private void navigateToMainActivity() {
+        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
+    private void handleErrorResponse(retrofit2.Response<Response.LogIn> response) {
+        try {
+            assert response.errorBody() != null;
+            String errorResponse = response.errorBody().string();
+            Log.e("TAG", "Error response: " + errorResponse);
+            Toast.makeText(getApplicationContext(), errorResponse, Toast.LENGTH_SHORT).show();
+        } catch (IOException e) {
+            Toast.makeText(getApplicationContext(), "Failed to read error response", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void handleFailure(Throwable t) {
+        Toast.makeText(getApplicationContext(), "An error occurred!!!", Toast.LENGTH_SHORT).show();
+        Log.e("ERROR", "Error: " + t.getMessage(), t);
+    }
 
 }

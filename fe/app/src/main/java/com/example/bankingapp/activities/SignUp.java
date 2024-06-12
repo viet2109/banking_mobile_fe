@@ -1,6 +1,7 @@
 package com.example.bankingapp.activities;
 
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Rect;
@@ -20,6 +21,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.bankingapp.R;
 import com.example.bankingapp.database.Database;
+import com.example.bankingapp.database.dto.UserDTO;
 import com.example.bankingapp.database.models.User;
 import com.example.bankingapp.database.service.AuthService;
 import com.example.bankingapp.utils.ValidationManager;
@@ -34,12 +36,15 @@ import retrofit2.Response;
 
 public class SignUp extends BaseActivity {
     private TextInputLayout name_input, email_input, password_input, repeat_password_input;
-
+    private ProgressDialog progressDialog;
     @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Loading...");
+        progressDialog.setCancelable(false);
 
         TextView header_title = findViewById(R.id.header_title);
         TextView header_description = findViewById(R.id.header_description);
@@ -57,10 +62,10 @@ public class SignUp extends BaseActivity {
         final String[] repeat_password_input_value = {""};
 
         //Set content texts
-        header_title.setText("Create an account");
-        header_description.setText("Welcome friend, enter your details to continue.");
-        sign_up_button.setText("Create an account");
-        sign_in_link.setText("Login to my account");
+        header_title.setText(R.string.register);
+        header_description.setText(R.string.register_description);
+        sign_up_button.setText(R.string.register);
+        sign_in_link.setText(R.string.login);
 
         //get all data input
 
@@ -148,7 +153,7 @@ public class SignUp extends BaseActivity {
 
             if (ValidationManager.getInstance().isAllValid()) {
                 Log.d("TAG", "onCreate");
-                User user = User
+                UserDTO.Register user = UserDTO.Register
                         .builder()
                         .name(name_input.getEditText().getText().toString())
                         .email(email_input.getEditText().getText().toString())
@@ -166,14 +171,16 @@ public class SignUp extends BaseActivity {
 
     }
 
-    private void register(User user) {
+    private void register(UserDTO.Register user) {
         Log.d("Register", user.toString());
+        progressDialog.show();
         AuthService authService = Database.getClient().create(AuthService.class);
-        Call<User> call = authService.register(user);
+        Call<UserDTO.Register> call = authService.register(user);
         Log.d("TAG", "register");
-        call.enqueue(new Callback<User>() {
+        call.enqueue(new Callback<UserDTO.Register>() {
                          @Override
-                         public void onResponse(@NonNull Call<User> call, @NonNull Response<User> response) {
+                         public void onResponse(@NonNull Call<UserDTO.Register> call, @NonNull Response<UserDTO.Register> response) {
+                            progressDialog.dismiss();
                              if (response.isSuccessful()) {
                                  Toast.makeText(getApplicationContext(), "Register successful!", Toast.LENGTH_SHORT).show();
                                  Intent intent = new Intent(getApplicationContext(), SignIn.class);
@@ -186,14 +193,14 @@ public class SignUp extends BaseActivity {
                                      Toast.makeText(getApplicationContext(), errorResponse, Toast.LENGTH_SHORT).show();
 
                                  } catch (IOException e) {
-                                     e.printStackTrace();
                                      Toast.makeText(getApplicationContext(), "Failed to read error response", Toast.LENGTH_SHORT).show();
                                  }
                              }
                          }
 
                          @Override
-                         public void onFailure(@NonNull Call<User> call, @NonNull Throwable t) {
+                         public void onFailure(@NonNull Call<UserDTO.Register> call, @NonNull Throwable t) {
+                             progressDialog.dismiss();
                              Toast.makeText(getApplicationContext(), "An error occurred!!!", Toast.LENGTH_SHORT).show();
                          }
                      }

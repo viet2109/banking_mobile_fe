@@ -15,8 +15,11 @@ import android.widget.TextView;
 import com.example.bankingapp.R;
 import com.example.bankingapp.activities.Exchange;
 import com.example.bankingapp.activities.PayBill;
+import com.example.bankingapp.activities.PaymentHistory;
 import com.example.bankingapp.activities.Transfer;
 import com.example.bankingapp.storage.UserStorage;
+import com.example.bankingapp.utils.BalanceDisplay;
+import com.example.bankingapp.utils.CardDisplay;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
@@ -91,9 +94,13 @@ public class Home extends Fragment {
         exchange = view.findViewById(R.id.exchange);
         TextView textView = view.findViewById(R.id.textView3);
         TextView card_name = view.findViewById(R.id.card_name);
+        TextView card_number = view.findViewById(R.id.card_number);
+        TextView balance = view.findViewById(R.id.balance);
 
-        textView.setText(String.format("Hi, %s", userStorage.getUser().getName()));
+        textView.setText(String.format("%s, %s", getString(R.string.welcome), userStorage.getUser().getName()));
         card_name.setText(userStorage.getUser().getName());
+        card_number.setText(CardDisplay.builder().cardNumber(userStorage.getUser().getCardNumber()).build().display());
+        balance.setText(BalanceDisplay.builder().balance(userStorage.getUser().getBalance()).build().display());
 
 
 
@@ -105,8 +112,8 @@ public class Home extends Fragment {
                     Intent intent = new Intent(getActivity(), Transfer.class);
                     startActivity(intent);
                 } else if (v.getId() == report.getId()) {
-//                    Intent intent = new Intent(getActivity(), TransferReport.class);
-//                    startActivity(intent);
+                    Intent intent = new Intent(getActivity(), PaymentHistory.class);
+                    startActivity(intent);
                 } else if (v.getId() == pay_bill.getId()) {
                     Intent intent = new Intent(getActivity(), PayBill.class);
                     startActivity(intent);

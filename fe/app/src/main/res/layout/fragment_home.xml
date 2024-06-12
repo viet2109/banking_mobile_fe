@@ -51,6 +51,8 @@
             </ImageView>
         </RelativeLayout>
 
+
+
         <androidx.cardview.widget.CardView
 
             android:layout_width="match_parent"
@@ -77,7 +79,9 @@
                         <ImageView
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:src="@drawable/bg_card" />
+                            android:src="@drawable/card"
+                            android:scaleType="fitXY"
+                            />
 
                         <RelativeLayout
                             android:layout_width="match_parent"
@@ -96,6 +100,7 @@
                             </TextView>
 
                             <TextView
+                                android:id="@+id/card_number"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_centerVertical="true"
@@ -107,6 +112,7 @@
                             </TextView>
 
                             <TextView
+                                android:id="@+id/balance"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_alignParentBottom="true"
@@ -178,7 +184,7 @@
                                     android:layout_alignParentBottom="true"
                                     android:layout_centerHorizontal="true"
                                     android:layout_marginBottom="25dp"
-                                    android:text="Transaction">
+                                    android:text="@string/transfer">
 
                                 </TextView>
 
@@ -220,7 +226,7 @@
                                     android:layout_alignParentBottom="true"
                                     android:layout_centerHorizontal="true"
                                     android:layout_marginBottom="25dp"
-                                    android:text="Transaction report">
+                                    android:text="@string/report">
 
                                 </TextView>
 
@@ -263,7 +269,7 @@
                                     android:layout_alignParentBottom="true"
                                     android:layout_centerHorizontal="true"
                                     android:layout_marginBottom="25dp"
-                                    android:text="Pay the bill">
+                                    android:text="@string/pay_bill">
 
                                 </TextView>
 
@@ -305,7 +311,7 @@
                                     android:layout_alignParentBottom="true"
                                     android:layout_centerHorizontal="true"
                                     android:layout_marginBottom="25dp"
-                                    android:text="Exchange">
+                                    android:text="@string/exchange">
 
                                 </TextView>
 

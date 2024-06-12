@@ -30,6 +30,8 @@ public class SuccessTransfer extends AppCompatActivity {
         home = findViewById(R.id.button);
         transfer = findViewById(R.id.continue_transfer);
 
+
+
         Intent intent = getIntent();
         String name = intent.getStringExtra("name");
         String amount = intent.getStringExtra("amount");

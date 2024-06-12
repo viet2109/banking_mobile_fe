@@ -18,10 +18,12 @@
             android:layout_marginTop="24dp"
             android:background="#00000000"
             android:drawableLeft="@drawable/back_arrow"
-            android:text="Setting"
+            android:text="@string/setting"
             android:textSize="18sp">
 
         </Button>
+
+     
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -66,7 +68,7 @@
                             android:layout_height="wrap_content"
                             android:drawableEnd="@drawable/arrow_right"
                             android:paddingVertical="12dp"
-                            android:text="Password"
+                            android:text="@string/password"
                             android:textSize="16sp" />
 
                         <!-- Divider -->
@@ -93,12 +95,13 @@
 
                         <!-- Languages -->
                         <TextView
+                            android:id="@+id/setting_language"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:drawableEnd="@drawable/arrow_right"
                             android:paddingVertical="12dp"
 
-                            android:text="Languages"
+                            android:text="@string/language"
                             android:textSize="16sp" />
 
                         <!-- Divider -->
