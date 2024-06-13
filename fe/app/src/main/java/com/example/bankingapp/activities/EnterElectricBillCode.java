@@ -11,7 +11,7 @@ import android.widget.EditText;
 
 import com.example.bankingapp.R;
 
-public class EnterWaterBillCode extends AppCompatActivity {
+public class EnterElectricBillCode extends AppCompatActivity {
 
     private EditText billCodeEditText;
     private Button checkButton;
@@ -20,7 +20,7 @@ public class EnterWaterBillCode extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_enter_waterbillcode);
+        setContentView(R.layout.activity_enter_electricbillcode);
 
         billCodeEditText = findViewById(R.id.bill_code_edit_text);
         checkButton = findViewById(R.id.check_button);
@@ -49,7 +49,7 @@ public class EnterWaterBillCode extends AppCompatActivity {
             // Khi nút kiểm tra được nhấn, gửi bill code vào intent
             // chuyển sang activity PayBillWater.
 
-            Intent intent = new Intent(EnterWaterBillCode.this, PayBillWater.class);
+            Intent intent = new Intent(EnterElectricBillCode.this, PayBillWater.class);
             intent.putExtra("BILL_CODE", billCodeEditText.getText());
             startActivity(intent);
         });

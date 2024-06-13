@@ -24,7 +24,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class PayBillWater extends BaseActivity {
+public class PayBillElectric extends BaseActivity {
     private EditText otpInput;
     private Button getOtpButton;
     private Button payButton;
@@ -34,16 +34,16 @@ public class PayBillWater extends BaseActivity {
     private TextView codeTextView;
     private TextView fromDateTextView;
     private TextView toDateTextView;
-    private TextView waterFeeTextView;
+    private TextView electricFeeTextView;
     private TextView taxTextView;
     private TextView totalTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_paybill_water);
+        setContentView(R.layout.activity_paybill_electric);
         setupBackButton();
-        otpInput = findViewById(R.id.otp_input);
+        otpInput = findViewById(R.id.otpElectric_input);
         getOtpButton = findViewById(R.id.get_otp_button);
         payButton = findViewById(R.id.pay_button);
         nameTextView = findViewById(R.id.name);
@@ -52,7 +52,7 @@ public class PayBillWater extends BaseActivity {
         codeTextView = findViewById(R.id.code);
         fromDateTextView = findViewById(R.id.from_date);
         toDateTextView = findViewById(R.id.to_date);
-        waterFeeTextView = findViewById(R.id.water_fee);
+        electricFeeTextView = findViewById(R.id.water_fee);
         taxTextView = findViewById(R.id.tax);
         totalTextView = findViewById(R.id.total);
 
@@ -92,18 +92,18 @@ public class PayBillWater extends BaseActivity {
                 public void onResponse(Call<Object> call, Response<Object> response) {
                     // thành công thì chuyển sang activity pay Success
                     if (response.isSuccessful()){
-                        Toast.makeText(PayBillWater.this, "Pay bill water success", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(PayBillWater.this, PayBillSuccess.class);
+                        Toast.makeText(PayBillElectric.this, "Pay bill electric success", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(PayBillElectric.this, PayBillSuccess.class);
                         startActivity(intent);
 
                     }else{
-                        Toast.makeText(PayBillWater.this, "Pay bill water fail", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(PayBillElectric.this, "Pay bill electric fail", Toast.LENGTH_SHORT).show();
                     }
                 }
 
                 @Override
                 public void onFailure(Call<Object> call, Throwable t) {
-                    Toast.makeText(PayBillWater.this, "Pay bill water fail", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(PayBillElectric.this, "Pay bill water fail", Toast.LENGTH_SHORT).show();
                 }
             });
 
@@ -127,18 +127,18 @@ public class PayBillWater extends BaseActivity {
                     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
                     fromDateTextView.setText("From: " + dateFormat.format(bill.getFromDate()));
                     toDateTextView.setText("To: " + dateFormat.format(bill.getToDate()));
-                    waterFeeTextView.setText("Water fee: " + bill.getFee());
+                    electricFeeTextView.setText("Electric fee: " + bill.getFee());
                     taxTextView.setText("Tax: " + bill.getTax());
                     double total = bill.getFee() + bill.getTax();
                     totalTextView.setText("TOTAL: " + total);
                 } else {
-                    Toast.makeText(PayBillWater.this, "Failed to fetch bill information", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(PayBillElectric.this, "Failed to fetch bill information", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<BillEntity> call, Throwable t) {
-                Toast.makeText(PayBillWater.this, "Failed to fetch bill information", Toast.LENGTH_SHORT).show();
+                Toast.makeText(PayBillElectric.this, "Failed to fetch bill information", Toast.LENGTH_SHORT).show();
             }
         });
     }

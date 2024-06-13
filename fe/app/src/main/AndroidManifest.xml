@@ -71,6 +71,9 @@
             android:name=".activities.PayBillWater"
             android:exported="true" />
         <activity
+            android:name=".activities.PayBillElectric"
+            android:exported="true" />
+        <activity
             android:name=".activities.MainActivity"
             android:exported="true" />
         <activity
