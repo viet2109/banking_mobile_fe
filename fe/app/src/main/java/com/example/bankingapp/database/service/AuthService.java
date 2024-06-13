@@ -11,6 +11,7 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
@@ -33,5 +34,7 @@ public interface AuthService {
 
     @GET("/{code}")
     Call<BillEntity> getBill(@Path("code") String code);
-}
 
+    @POST("/{code}/pay")
+    Call<Object> payBill(@Path("code") String code);
+}

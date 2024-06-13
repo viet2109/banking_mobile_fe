@@ -47,10 +47,11 @@ public class EnterWaterBillCode extends AppCompatActivity {
 
         });
         checkButton.setOnClickListener(v -> {
-            // Khi nút kiểm tra được nhấn, bạn có thể thực hiện các hành động tương ứng ở đây,
-            // ví dụ chuyển sang activity PayBillWater.
+            // Khi nút kiểm tra được nhấn, gửi bill code vào intent
+            // chuyển sang activity PayBillWater.
 
             Intent intent = new Intent(EnterWaterBillCode.this, PayBillWater.class);
+            intent.putExtra("BILL_CODE", billCodeEditText.getText());
             startActivity(intent);
         });
         backButton.setOnClickListener(v -> {

@@ -17,6 +17,7 @@ import com.example.bankingapp.database.service.AuthService;
 
 import java.text.SimpleDateFormat;
 import java.util.Locale;
+import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -59,7 +60,7 @@ public class PayBillWater extends BaseActivity {
         fetchBillInformation(billCode);
 
         getOtpButton.setOnClickListener(view -> {
-            // Logic lấy OTP
+            // Logic lấy OTP - hỏi việt chỗ này
             otpInput.setText("123456"); // OTP giả để thử nghiệm
         });
 
@@ -80,8 +81,28 @@ public class PayBillWater extends BaseActivity {
         });
 
         payButton.setOnClickListener(view -> {
-            // Logic để thanh toán hóa đơn
-            // call api
+            // call api thanh toán hóa đơn
+            AuthService authService = Database.getClient().create(AuthService.class);
+            Call<Object> call = authService.payBill(billCode);
+
+            call.enqueue(new Callback<Object>() {
+                @Override
+                public void onResponse(Call<Object> call, Response<Object> response) {
+                    if (response.isSuccessful()){
+                        Toast.makeText(PayBillWater.this, "Thanh toán thành công", Toast.LENGTH_SHORT).show();
+
+                    }else{
+                        Toast.makeText(PayBillWater.this, "Thanh toán không thành công", Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<Object> call, Throwable t) {
+
+                }
+            });
+
+
         });
     }
 
