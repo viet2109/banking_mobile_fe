@@ -36,7 +36,7 @@ public class EnterElectricBillCode extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                checkButton.setEnabled(s.length() > 6);
+                checkButton.setEnabled(s.length() > 1);
             }
 
             @Override
@@ -49,8 +49,8 @@ public class EnterElectricBillCode extends AppCompatActivity {
             // Khi nút kiểm tra được nhấn, gửi bill code vào intent
             // chuyển sang activity PayBillWater.
 
-            Intent intent = new Intent(EnterElectricBillCode.this, PayBillWater.class);
-            intent.putExtra("BILL_CODE", billCodeEditText.getText());
+            Intent intent = new Intent(EnterElectricBillCode.this, PayBillElectric.class);
+            intent.putExtra("BILL_CODE", billCodeEditText.getText().toString());
             startActivity(intent);
         });
         backButton.setOnClickListener(v -> {

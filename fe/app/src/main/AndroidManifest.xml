@@ -74,6 +74,15 @@
             android:name=".activities.PayBillElectric"
             android:exported="true" />
         <activity
+            android:name=".activities.EnterElectricBillCode"
+            android:exported="true" />
+        <activity
+            android:name=".activities.EnterWaterBillCode"
+            android:exported="true" />
+        <activity
+            android:name=".activities.PayBillSuccess"
+            android:exported="true" />
+        <activity
             android:name=".activities.MainActivity"
             android:exported="true" />
         <activity

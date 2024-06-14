@@ -36,7 +36,7 @@ public class EnterWaterBillCode extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                checkButton.setEnabled(s.length() > 6);
+                checkButton.setEnabled(s.length() > 1);
             }
 
             @Override

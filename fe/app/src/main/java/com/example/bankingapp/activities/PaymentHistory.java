@@ -1,6 +1,7 @@
 package com.example.bankingapp.activities;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,7 +13,11 @@ import com.example.bankingapp.adapters.PaymentHistoryAdapter;
 import com.example.bankingapp.database.Database;
 import com.example.bankingapp.database.models.PaymentHistoryItem;
 import com.example.bankingapp.database.service.AuthService;
+import com.example.bankingapp.database.service.PaymentSevice;
+import com.example.bankingapp.storage.UserStorage;
 
+import java.io.IOException;
+import java.security.GeneralSecurityException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,19 +40,36 @@ public class PaymentHistory extends BaseActivity {
         setupBackButton();
 
         // Lấy ra id user hiện tại
-        String userId = "123123";
+        UserStorage userStorage;
+        try {
+             userStorage = new UserStorage(this);
+        } catch (GeneralSecurityException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        String token = userStorage.getToken();
+
+//        String userId = "123123";
 
         // Call API
-        AuthService authService = Database.getClient().create(AuthService.class);
-        Call<List<PaymentHistoryItem>> call = authService.findAll(userId);
+        PaymentSevice paymentService = Database.getClient().create(PaymentSevice.class);
+        Call<List<PaymentHistoryItem>> call = paymentService.getPaymentByCate("Electric", "Bearer "+token);
+        Log.e("Token : ",token);
         call.enqueue(new Callback<List<PaymentHistoryItem>>() {
 
             @Override
             public void onResponse(Call<List<PaymentHistoryItem>> call, Response<List<PaymentHistoryItem>> response) {
-                if (response.isSuccessful() && response.body() != null) {
+              response.message();
+
+                if (response.isSuccessful()) {
+
+                    Log.e("hiihi ", "onResponse: "+ response.body() );
+                    assert response.body() != null;
                     itemList.addAll(response.body());
                     recyclerView.setAdapter(new PaymentHistoryAdapter(itemList));
                 } else {
+                    Log.e("duyvu2612003@gmail.com", "onResponse: " +call.request().header("Authorization"));
                     Toast.makeText(PaymentHistory.this, "Failed to load payment history", Toast.LENGTH_SHORT).show();
                 }
             }

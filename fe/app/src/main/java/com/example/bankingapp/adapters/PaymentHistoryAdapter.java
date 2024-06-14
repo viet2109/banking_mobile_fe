@@ -13,7 +13,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.bankingapp.R;
 import com.example.bankingapp.database.models.PaymentHistoryItem;
+import com.example.bankingapp.utils.FomatDateTime;
 
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
@@ -60,14 +62,16 @@ public class PaymentHistoryAdapter extends RecyclerView.Adapter<PaymentHistoryAd
 
         @RequiresApi(api = Build.VERSION_CODES.O)
         public void bind(PaymentHistoryItem item) {
-            // Sử dụng DateTimeFormatter để định dạng ngày tháng
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            if (item==null) return;
+            FomatDateTime fomatDateTime = FomatDateTime.builder().time(item.getCreated()).build();
+            LocalDateTime localDateTime = fomatDateTime.convertTime();
+            DateTimeFormatter outputFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
             // Đặt giá trị cho các TextView
-            tvMonth.setText(String.valueOf(item.getCreateAt().getMonth()));
+            tvMonth.setText(String.valueOf(localDateTime.getMonth()));
             tvStatus.setText(item.getStatus());
             tvAmount.setText(String.valueOf(item.getAmount()));
-            tvDate.setText(item.getCreateAt().format(formatter)); // Sử dụng formatter để định dạng ngày tháng
+            tvDate.setText(localDateTime.format(outputFormatter));
 
             // Đặt màu cho trạng thái dựa vào thành công hay thất bại
             if ("Unsuccessfully".equals(item.getStatus())) {

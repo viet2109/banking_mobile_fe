@@ -29,12 +29,5 @@ public interface AuthService {
                                    @Query("toCurrency") String toCurrency,
                                    @Query("amount") int amount);
 
-    @GET("payment/search")
-    Call<List<PaymentHistoryItem>> findAll(@Query("forUser") String forUser);
 
-    @GET("/{code}")
-    Call<BillEntity> getBill(@Path("code") String code);
-
-    @POST("/{code}/pay")
-    Call<Object> payBill(@Path("code") String code);
 }
