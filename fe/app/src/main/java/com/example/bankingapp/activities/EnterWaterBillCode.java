@@ -50,7 +50,7 @@ public class EnterWaterBillCode extends AppCompatActivity {
             // chuyển sang activity PayBillWater.
 
             Intent intent = new Intent(EnterWaterBillCode.this, PayBillWater.class);
-            intent.putExtra("BILL_CODE", billCodeEditText.getText());
+            intent.putExtra("BILL_CODE", billCodeEditText.getText().toString());
             startActivity(intent);
         });
         backButton.setOnClickListener(v -> {
