@@ -14,8 +14,8 @@ import retrofit2.http.Path;
 
 public interface UserService {
 
-    @GET("user")
-    Call<List<User>> getUsers();
+    @GET("user/current-user")
+    Call<UserDTO> getCurrentUser(@Header("Authorization") String token);
 
 //    @GET("/user/{email}")
 //    Call<User> getUserByEmail(@Path("email") String email);
@@ -23,6 +23,4 @@ public interface UserService {
     @GET("user/{cardnumber}")
     Call<UserDTO> getUserCardNumber(@Header("Authorization") String token, @Path("cardnumber") String card);
 
-    @POST("login")
-    Call<User> login(@Body User user);
 }

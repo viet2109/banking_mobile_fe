@@ -17,6 +17,9 @@ import com.example.bankingapp.activities.PayBill;
 import com.example.bankingapp.activities.PaymentHistory;
 import com.example.bankingapp.activities.TransactionHistory;
 import com.example.bankingapp.activities.Transfer;
+import com.example.bankingapp.database.Database;
+import com.example.bankingapp.database.dto.UserDTO;
+import com.example.bankingapp.database.service.UserService;
 import com.example.bankingapp.storage.UserStorage;
 import com.example.bankingapp.utils.BalanceDisplay;
 import com.example.bankingapp.utils.CardDisplay;
@@ -26,6 +29,10 @@ import java.security.GeneralSecurityException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -98,10 +105,28 @@ public class Home extends Fragment {
         TextView card_number = view.findViewById(R.id.card_number);
         TextView balance = view.findViewById(R.id.balance);
 
+        UserService userService = Database.getClient().create(UserService.class);
+        Call<UserDTO> call = userService.getCurrentUser("Bearer " + userStorage.getToken());
+        call.enqueue(new Callback<UserDTO>() {
+            @Override
+            public void onResponse(Call<UserDTO> call, Response<UserDTO> response) {
+                if (response.isSuccessful()) {
+                    assert response.body() != null;
+                    double bal = response.body().getBalance();
+                    balance.setText(BalanceDisplay.builder().balance(bal).build().display());
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<UserDTO> call, Throwable t) {
+
+            }
+        });
+
         textView.setText(String.format("%s, %s", getString(R.string.welcome), userStorage.getUser().getName()));
         card_name.setText(userStorage.getUser().getName());
         card_number.setText(CardDisplay.builder().cardNumber(userStorage.getUser().getCardNumber()).build().display());
-        balance.setText(BalanceDisplay.builder().balance(userStorage.getUser().getBalance()).build().display());
 
 
         listCard = new ArrayList<CardView>(Arrays.asList(transfer, report, pay_bill, exchange, payment_report));

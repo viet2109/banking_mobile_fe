@@ -29,4 +29,7 @@
     <string name="content">Content</string>
     <string name="confirm">Confirm</string>
     <string name="payment_report">Payment report</string>
+    <string name="touch_id">Touch ID</string>
+    <string name="app_information">App information</string>
+    <string name="customer_care">Customer care</string>
 </resources>

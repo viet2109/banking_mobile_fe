@@ -45,6 +45,8 @@ public class PayBillWater extends BaseActivity {
     private TextView codeTextView;
     private TextView fromDateTextView;
     private TextView toDateTextView;
+    private TextView amountTextView;
+
     private TextView waterFeeTextView;
     private TextView taxTextView;
     private TextView totalTextView;
@@ -63,6 +65,7 @@ public class PayBillWater extends BaseActivity {
         phoneTextView = findViewById(R.id.textView6);
         codeTextView = findViewById(R.id.textView7);
         fromDateTextView = findViewById(R.id.textView8);
+        amountTextView = findViewById(R.id.textView10);
         toDateTextView = findViewById(R.id.textView9);
         waterFeeTextView = findViewById(R.id.textView11);
         taxTextView = findViewById(R.id.textView12);
@@ -180,9 +183,10 @@ public class PayBillWater extends BaseActivity {
                     codeTextView.setText(bill.getCode());
                     fromDateTextView.setText(dateFormat.format(fromDateTime));
                     toDateTextView.setText(dateFormat.format(toDateTime));
+                    amountTextView.setText(bill.getAmount()+"");
                     waterFeeTextView.setText(bill.getFee()+"");
                     taxTextView.setText(bill.getTax()+"");
-                    double total = bill.getFee() + bill.getTax();
+                    double total = bill.getAmount() - ( bill.getFee() + bill.getTax());
                     totalTextView.setText(total+"");
                 } else {
                     try {

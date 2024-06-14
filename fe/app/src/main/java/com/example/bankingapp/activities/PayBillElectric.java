@@ -42,6 +42,7 @@ public class PayBillElectric extends BaseActivity {
     private TextView codeTextView;
     private TextView fromDateTextView;
     private TextView toDateTextView;
+    private TextView amountTextView;
     private TextView electricFeeTextView;
     private TextView taxTextView;
     private TextView totalTextView;
@@ -62,6 +63,7 @@ public class PayBillElectric extends BaseActivity {
         fromDateTextView = findViewById(R.id.textView8);
         toDateTextView = findViewById(R.id.textView9);
         electricFeeTextView = findViewById(R.id.textView11);
+        amountTextView = findViewById(R.id.textView10);
         taxTextView = findViewById(R.id.textView12);
         totalTextView = findViewById(R.id.textView13);
 
@@ -175,9 +177,10 @@ public class PayBillElectric extends BaseActivity {
                     codeTextView.setText(bill.getCode());
                     fromDateTextView.setText(dateFormat.format(fromDateTime));
                     toDateTextView.setText(dateFormat.format(toDateTime));
+                    amountTextView.setText(bill.getAmount()+"");
                     electricFeeTextView.setText(bill.getFee()+"");
                     taxTextView.setText(bill.getTax()+"");
-                    double total = bill.getFee() + bill.getTax();
+                    double total = bill.getAmount() -( bill.getFee() + bill.getTax());
                     totalTextView.setText(total+"");
                 } else {
                     try {

@@ -69,16 +69,11 @@ public class PaymentHistoryAdapter extends RecyclerView.Adapter<PaymentHistoryAd
 
             // Đặt giá trị cho các TextView
             tvMonth.setText(String.valueOf(localDateTime.getMonth()));
-            tvStatus.setText(item.getStatus());
+            tvStatus.setText(item.getCategory());
             tvAmount.setText(String.valueOf(item.getAmount()));
             tvDate.setText(localDateTime.format(outputFormatter));
 
-            // Đặt màu cho trạng thái dựa vào thành công hay thất bại
-            if ("Unsuccessfully".equals(item.getStatus())) {
-                tvStatus.setTextColor(Color.RED);
-            } else {
-                tvStatus.setTextColor(Color.GREEN);
-            }
+
         }
     }
 }

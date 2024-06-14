@@ -30,7 +30,9 @@
     <string name="content">Nội dung giao dịch</string>
     <string name="confirm">Xác nhận</string>
     <string name="payment_report">Lịch sử thanh toán</string>
-
+    <string name="touch_id">Nhận diện vân tay</string>
+    <string name="app_information">Thông tin ứng dụng</string>
+    <string name="customer_care">Chăm sóc khách hàng</string>
 
 
 </resources>
