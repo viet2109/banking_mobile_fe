@@ -25,17 +25,14 @@ import com.example.bankingapp.utils.FomatDateTime;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Locale;
-import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class PayBillWater extends BaseActivity {
+public class PayBillElectric extends BaseActivity {
     private EditText otpInput;
     private Button getOtpButton;
     private Button payButton;
@@ -45,16 +42,16 @@ public class PayBillWater extends BaseActivity {
     private TextView codeTextView;
     private TextView fromDateTextView;
     private TextView toDateTextView;
-    private TextView waterFeeTextView;
+    private TextView electricFeeTextView;
     private TextView taxTextView;
     private TextView totalTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_paybill_water);
+        setContentView(R.layout.activity_paybill_electric);
         setupBackButton();
-        otpInput = findViewById(R.id.otp_input);
+        otpInput = findViewById(R.id.otpElectric_input);
         getOtpButton = findViewById(R.id.get_otp_button);
         payButton = findViewById(R.id.pay_button);
 
@@ -64,15 +61,14 @@ public class PayBillWater extends BaseActivity {
         codeTextView = findViewById(R.id.textView7);
         fromDateTextView = findViewById(R.id.textView8);
         toDateTextView = findViewById(R.id.textView9);
-        waterFeeTextView = findViewById(R.id.textView11);
+        electricFeeTextView = findViewById(R.id.textView11);
         taxTextView = findViewById(R.id.textView12);
         totalTextView = findViewById(R.id.textView13);
 
-
+        // Gọi API để lấy thông tin hóa đơn
         String billCode = getIntent().getStringExtra("BILL_CODE"); // Lấy mã hóa đơn từ Intent
         Log.e("billcode", "onCreate: "+ billCode );
         try {
-            // gọi api lấy thông tin hóa đơn
             fetchBillInformation(billCode);
         } catch (GeneralSecurityException e) {
             throw new RuntimeException(e);
@@ -121,24 +117,24 @@ public class PayBillWater extends BaseActivity {
                 public void onResponse(@NonNull Call<Object> call, @NonNull Response<Object> response) {
                     // thành công thì chuyển sang activity pay Success
                     if (response.isSuccessful()){
-                        Toast.makeText(PayBillWater.this, "Pay bill water success", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(PayBillWater.this, PayBillSuccess.class);
+                        Toast.makeText(PayBillElectric.this, "Pay bill electric success", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(PayBillElectric.this, PayBillSuccess.class);
                         startActivity(intent);
 
                     }else{
                         try {
-                            Log.e("PayBillWater", "Error: " + response.errorBody().string());
+                            Log.e("PayBillElectric", "Error: " + response.errorBody().string());
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
-                        Toast.makeText(PayBillWater.this, "Pay bill water fail", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(PayBillElectric.this, "Pay bill electric fail", Toast.LENGTH_SHORT).show();
                     }
                 }
 
                 @Override
                 public void onFailure(@NonNull Call<Object> call, @NonNull Throwable t) {
-                    Toast.makeText(PayBillWater.this, "Pay bill water success", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(PayBillWater.this, PayBillSuccess.class);
+                    Toast.makeText(PayBillElectric.this, "Pay bill electric success", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(PayBillElectric.this, PayBillSuccess.class);
                     startActivity(intent);
                 }
             });
@@ -158,7 +154,7 @@ public class PayBillWater extends BaseActivity {
                 Log.e("response", "onResponse: " + response.body());
                 if (response.body() == null) {
                     try {
-                        Toast.makeText(PayBillWater.this, response.errorBody().string(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(PayBillElectric.this, response.errorBody().string(), Toast.LENGTH_SHORT).show();
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }
@@ -181,24 +177,24 @@ public class PayBillWater extends BaseActivity {
                     codeTextView.setText(bill.getCode());
                     fromDateTextView.setText(dateFormat.format(fromDateTime));
                     toDateTextView.setText(dateFormat.format(toDateTime));
-                    waterFeeTextView.setText(bill.getFee()+"");
+                    electricFeeTextView.setText(bill.getFee()+"");
                     taxTextView.setText(bill.getTax()+"");
                     double total = bill.getFee() + bill.getTax();
                     totalTextView.setText(total+"");
                 } else {
                     try {
-                        Log.e("PayBillWater", "Error: " + response.errorBody().string());
+                        Log.e("PayBillElectric", "Error: " + response.errorBody().string());
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                    Toast.makeText(PayBillWater.this, "Failed to fetch bill information", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(PayBillElectric.this, "Failed to fetch bill information", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<BillEntity> call, Throwable t) {
-                Log.e("PayBillEle", "onFailure: ", t);
-                Toast.makeText(PayBillWater.this, "Error", Toast.LENGTH_SHORT).show();
+                Log.e("PayBillElectric", "onFailure: ", t);
+                Toast.makeText(PayBillElectric.this, "Error", Toast.LENGTH_SHORT).show();
             }
         });
     }

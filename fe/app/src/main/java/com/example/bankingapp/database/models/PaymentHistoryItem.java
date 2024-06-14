@@ -1,38 +1,24 @@
 package com.example.bankingapp.database.models;
 
-public class PaymentHistoryItem {
-    private String userId;
-    private String month;
+import com.google.gson.annotations.JsonAdapter;
+
+import java.io.Serializable;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+public class PaymentHistoryItem implements Serializable {
+    private String id;
+    private double amount;
+    private String category;
+    private String created;
+    private String forUser;
     private String status;
-    private String amount;
-    private String date;
 
-    public PaymentHistoryItem(String userId, String month, String status, String amount, String date) {
-        this.userId = userId;
-        this.month = month;
-        this.status = status;
-        this.amount = amount;
-        this.date = date;
-    }
 
-    public String getUserId() {
-        return userId;
-    }
-
-    public String getMonth() {
-        return month;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public String getAmount() {
-        return amount;
-    }
-
-    public String getDate() {
-        return date;
-    }
 }
-

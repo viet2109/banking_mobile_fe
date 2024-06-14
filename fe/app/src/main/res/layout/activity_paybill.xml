@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".activities.PayBill"
+    android:background="#fff"
     android:padding="16dp">
 <!--    tools:context=".PayBillActivity">-->
 
@@ -19,13 +20,19 @@
         android:popupTheme="@style/ThemeOverlay.AppCompat.Light"
         android:theme="?attr/actionBarTheme">
 
-        <TextView
+        <Button
+            android:id="@+id/back_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="-27dp"
+            android:layout_marginTop="16dp"
+            android:background="@color/transparent"
+            android:drawableLeft="@drawable/arrow_back_black"
             android:text="Pay the bill"
-            android:textColor="@color/text_black_bold"
-            android:textSize="34sp"
-            android:textStyle="bold" />
+            android:textColor="#333333"
+            tools:ignore="MissingConstraints">
+
+        </Button>
     </androidx.appcompat.widget.Toolbar>
 
     <!-- Bills List -->

@@ -23,13 +23,13 @@ public class PayBill extends AppCompatActivity {
 
         water_bill = findViewById(R.id.water_bill);
 
-//        electric_bill.setOnClickListener(v -> {
-//            Intent intent = new Intent(PayBill.this, ElectricBill.class);
-//            startActivity(intent);
-//        });
+        electric_bill.setOnClickListener(v -> {
+            Intent intent = new Intent(PayBill.this, EnterElectricBillCode.class);
+            startActivity(intent);
+        });
 
         water_bill.setOnClickListener(v -> {
-            Intent intent = new Intent(PayBill.this, PayBillWater.class);
+            Intent intent = new Intent(PayBill.this, EnterWaterBillCode.class);
             startActivity(intent);
         });
 
