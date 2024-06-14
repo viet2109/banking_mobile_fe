@@ -276,6 +276,47 @@
                             </RelativeLayout>
 
                         </androidx.cardview.widget.CardView>
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/payment_report"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_columnWeight="1"
+                            android:layout_margin="10dp"
+                            app:cardBackgroundColor="@color/white"
+                            app:cardCornerRadius="18dp"
+                            app:cardElevation="7dp">
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="100dp"
+                                android:layout_marginTop="20dp">
+
+                                <ImageView
+                                    android:id="@+id/imageView8"
+                                    android:layout_width="32dp"
+                                    android:layout_height="32dp"
+                                    android:layout_centerHorizontal="true"
+                                    android:contentDescription="icon"
+                                    android:src="@drawable/credit"
+
+                                    tools:ignore="HardcodedText" />
+
+                                <TextView
+                                    android:layout_marginTop="10dp"
+                                    android:textAlignment="center"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_below="@+id/imageView8"
+                                    android:layout_alignParentBottom="true"
+                                    android:layout_centerHorizontal="true"
+                                    android:layout_marginBottom="25dp"
+                                    android:text="@string/payment_report">
+
+                                </TextView>
+
+                            </RelativeLayout>
+
+                        </androidx.cardview.widget.CardView>
 
                         <androidx.cardview.widget.CardView
                             android:id="@+id/exchange"

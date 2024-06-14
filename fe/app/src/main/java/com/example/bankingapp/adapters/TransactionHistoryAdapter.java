@@ -1,0 +1,85 @@
+package com.example.bankingapp.adapters;
+
+import android.graphics.Color;
+import android.os.Build;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.bankingapp.R;
+import com.example.bankingapp.database.models.PaymentHistoryItem;
+import com.example.bankingapp.database.models.TransactionHistoryItem;
+import com.example.bankingapp.utils.FomatDateTime;
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
+
+public class TransactionHistoryAdapter extends RecyclerView.Adapter<TransactionHistoryAdapter.TransactionHistoryViewHolder> {
+
+    private List<TransactionHistoryItem> items;
+
+    public TransactionHistoryAdapter(List<TransactionHistoryItem> items) {
+        this.items = items;
+    }
+
+    @NonNull
+    @Override
+    public TransactionHistoryViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.activity_payment_history, parent, false);
+        return new TransactionHistoryViewHolder(view);
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    @Override
+    public void onBindViewHolder(@NonNull TransactionHistoryViewHolder holder, int position) {
+        TransactionHistoryItem item = items.get(position);
+        holder.bind(item);
+    }
+
+    @Override
+    public int getItemCount() {
+        return items.size();
+    }
+
+    class TransactionHistoryViewHolder extends RecyclerView.ViewHolder {
+        private TextView tvMonth;
+        private TextView tvStatus;
+        private TextView tvAmount;
+        private TextView tvDate;
+
+        public TransactionHistoryViewHolder(@NonNull View itemView) {
+            super(itemView);
+            tvMonth = itemView.findViewById(R.id.tvMonth);
+            tvStatus = itemView.findViewById(R.id.tvStatus);
+            tvAmount = itemView.findViewById(R.id.tvAmount);
+            tvDate = itemView.findViewById(R.id.tvDate);
+        }
+
+        @RequiresApi(api = Build.VERSION_CODES.O)
+        public void bind(TransactionHistoryItem item) {
+            if (item==null) return;
+            FomatDateTime fomatDateTime = FomatDateTime.builder().time(item.getCreated()).build();
+            LocalDateTime localDateTime = fomatDateTime.convertTime();
+            DateTimeFormatter outputFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+            // Đặt giá trị cho các TextView
+            tvMonth.setText(String.valueOf(localDateTime.getMonth()));
+            tvStatus.setText(String.format("To: %s", item.getToUser()));
+            tvAmount.setText(String.valueOf(item.getAmount()));
+            tvDate.setText(localDateTime.format(outputFormatter));
+
+            // Đặt màu cho trạng thái dựa vào thành công hay thất bại
+            if ("Unsuccessfully".equals(item.getStatus())) {
+                tvStatus.setTextColor(Color.RED);
+            } else {
+                tvStatus.setTextColor(Color.GREEN);
+            }
+        }
+    }
+}

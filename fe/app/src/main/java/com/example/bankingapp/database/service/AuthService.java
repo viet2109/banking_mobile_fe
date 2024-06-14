@@ -24,6 +24,8 @@ public interface AuthService {
     @POST("auth/register")
     Call<UserDTO.Register> register(@Body UserDTO.Register user);
 
+
+
     @POST("currency/exchange")
     Call<Integer> exchangeCurrency(@Query("fromCurrency") String fromCurrency,
                                    @Query("toCurrency") String toCurrency,

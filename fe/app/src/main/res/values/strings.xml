@@ -28,4 +28,5 @@
     <string name="amount">Amount</string>
     <string name="content">Content</string>
     <string name="confirm">Confirm</string>
+    <string name="payment_report">Payment report</string>
 </resources>

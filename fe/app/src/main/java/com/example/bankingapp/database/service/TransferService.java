@@ -11,5 +11,5 @@ import retrofit2.http.POST;
 public interface TransferService {
 
     @POST("user/tranfer")
-    Call<Object> transfer(@Header("Authorization") String token, @Body TransitionDTO transitionDTO);
+    Call<Void> transfer(@Header("Authorization") String token, @Body TransitionDTO transitionDTO);
 }

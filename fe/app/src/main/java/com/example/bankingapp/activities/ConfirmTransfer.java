@@ -122,11 +122,11 @@ public class ConfirmTransfer extends BaseActivity {
                     .build();
             progressDialog.show();
             TransferService transferService = Database.getClient().create(TransferService.class);
-            Call<Object> call = transferService.transfer("Bearer " + token, transitionDTO);
+            Call<Void> call = transferService.transfer("Bearer " + token, transitionDTO);
 
-            call.enqueue(new Callback<Object>() {
+            call.enqueue(new Callback<Void>() {
                 @Override
-                public void onResponse(Call<Object> call, Response<Object> response) {
+                public void onResponse(Call<Void> call, Response<Void> response) {
                     Log.d("ERROR", "Error: " + token);
                     progressDialog.dismiss();
                     if (response.isSuccessful()) {
@@ -146,7 +146,7 @@ public class ConfirmTransfer extends BaseActivity {
                 }
 
                 @Override
-                public void onFailure(Call<Object> call, Throwable t) {
+                public void onFailure(Call<Void> call, Throwable t) {
                     progressDialog.dismiss();
                     Toast.makeText(getApplicationContext(), "An error occurred!!!", Toast.LENGTH_SHORT).show();
                     Log.e("ERROR", "Error: " + t.getMessage(), t);

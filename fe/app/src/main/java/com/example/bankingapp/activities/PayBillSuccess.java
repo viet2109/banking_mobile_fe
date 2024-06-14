@@ -23,7 +23,7 @@ public class PayBillSuccess extends AppCompatActivity {
             public void onClick(View v) {
                 // hiển thị thông báo chuyển về trang Pay bill
                 Toast.makeText(PayBillSuccess.this, "Confirmed!", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(PayBillSuccess.this, PayBill.class);
+                Intent intent = new Intent(PayBillSuccess.this, MainActivity.class);
                 startActivity(intent);
             }
         });

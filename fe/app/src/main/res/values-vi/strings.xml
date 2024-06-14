@@ -11,7 +11,7 @@
     <string name="login_with_google">Đăng nhập với Google</string>
     <string name="register">Đăng kí</string>
     <string name="transfer">Giao dịch</string>
-    <string name="report">Lịc sử giao dịch</string>
+    <string name="report">Lịch sử giao dịch</string>
     <string name="pay_bill">Thanh toán hóa đơn</string>
     <string name="exchange">Quy đổi tiền tệ</string>
     <string name="home">Trang chủ</string>
@@ -29,6 +29,8 @@
     <string name="amount">Số tiền giao dịch</string>
     <string name="content">Nội dung giao dịch</string>
     <string name="confirm">Xác nhận</string>
+    <string name="payment_report">Lịch sử thanh toán</string>
+
 
 
 </resources>
