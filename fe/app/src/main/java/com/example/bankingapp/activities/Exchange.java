@@ -3,25 +3,35 @@ package com.example.bankingapp.activities;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.*;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Spinner;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.bankingapp.R;
-import com.example.bankingapp.database.Database;
-import com.example.bankingapp.database.service.AuthService;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Exchange extends BaseActivity {
 
-    private String[] currencies = {"VND", "HK$", "USA", "NT$", "JS"};
+    private String[] currencies = {"VND", "HK$", "USD", "NT$", "JPY"};
     private Spinner fromCurrencySelected;
     private Spinner toCurrencySelected;
     private EditText edtToAmount, edtFromAmount;
     private Button btnExchange;
+
+    // Hardcoded exchange rates (relative to USD)
+    private final Map<String, Double> exchangeRates = new HashMap<String, Double>() {{
+        put("VND", 0.000043); // 1 VND = 0.000043 USD
+        put("HK$", 0.13);     // 1 HK$ = 0.13 USD
+        put("USD", 1.0);      // 1 USD = 1 USD
+        put("NT$", 0.033);    // 1 NT$ = 0.033 USD
+        put("JPY", 0.0073);   // 1 JPY = 0.0073 USD
+    }};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,28 +70,17 @@ public class Exchange extends BaseActivity {
                     return;
                 }
 
-                int amountIn = Integer.parseInt(fromAmountString);
+                double amountIn = Double.parseDouble(fromAmountString);
 
-                AuthService authService = Database.getClient().create(AuthService.class);
-                Call<Integer> call = authService.exchangeCurrency(fromCurrency, toCurrency, amountIn);
+                // Get the exchange rates
+                double fromRate = exchangeRates.getOrDefault(fromCurrency, 1.0);
+                double toRate = exchangeRates.getOrDefault(toCurrency, 1.0);
 
-                call.enqueue(new Callback<Integer>() {
-                    @Override
-                    public void onResponse(Call<Integer> call, Response<Integer> response) {
-                        if (response.isSuccessful() && response.body() != null) {
-                            Integer result = response.body();
-                            edtToAmount.setText(String.valueOf(result));
-                            Toast.makeText(getApplicationContext(), "Exchange successful!", Toast.LENGTH_SHORT).show();
-                        } else {
-                            Toast.makeText(getApplicationContext(), "Failed to exchange currency. Please try again.", Toast.LENGTH_SHORT).show();
-                        }
-                    }
+                // Convert to USD first, then to the target currency
+                double amountInUSD = amountIn * fromRate;
+                double convertedAmount = amountInUSD / toRate;
 
-                    @Override
-                    public void onFailure(Call<Integer> call, Throwable t) {
-                        Toast.makeText(getApplicationContext(), "Failed to exchange currency. Please try again.", Toast.LENGTH_SHORT).show();
-                    }
-                });
+                edtToAmount.setText(String.valueOf(convertedAmount));
             }
         });
     }
