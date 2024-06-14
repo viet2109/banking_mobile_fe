@@ -1,8 +1,8 @@
 package com.example.bankingapp.activities;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -19,17 +19,24 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.bankingapp.R;
 import com.example.bankingapp.adapters.HistoryTransAdapter;
+import com.example.bankingapp.database.Database;
 import com.example.bankingapp.database.dto.UserDTO;
 import com.example.bankingapp.database.models.Transition;
 import com.example.bankingapp.database.models.User;
+import com.example.bankingapp.database.service.UserService;
 import com.example.bankingapp.storage.UserStorage;
 import com.example.bankingapp.utils.ValidationManager;
 import com.google.android.material.textfield.TextInputLayout;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class Transfer extends BaseActivity implements HistoryTransAdapter.OnItemClickListener {
 
@@ -152,7 +159,6 @@ public class Transfer extends BaseActivity implements HistoryTransAdapter.OnItem
         });
 
 
-
         confirmBtn.setOnClickListener(v -> {
             //check validate info transfer
             ValidationManager.getInstance().checkEmpty(bankInput, cardNumberInput, amountInput);
@@ -173,25 +179,51 @@ public class Transfer extends BaseActivity implements HistoryTransAdapter.OnItem
             assert userStorage != null;
             UserDTO sender = userStorage.getUser();
 
+            UserService userService = Database.getClient().create(UserService.class);
+            String token = userStorage.getToken();
+            Call<UserDTO> call = userService.getUserCardNumber("Bearer " + token, Objects.requireNonNull(cardNumberInput.getEditText()).getText().toString());
+
+
             UserDTO receiver = UserDTO.builder()
-                    .name("John")
                     .bank(autoCompleteTextView.getText().toString())
                     .cardNumber(Objects.requireNonNull(cardNumberInput.getEditText()).getText().toString())
                     .build();
 
-            Transition transition = Transition.builder()
-                    .sender(sender)
-                    .receiver(receiver)
-                    .amount(Double.parseDouble(Objects.requireNonNull(amountInput.getEditText()).getText().toString()))
-                    .message(Objects.requireNonNull(contentInput.getEditText()).getText().toString())
-                    .time(System.currentTimeMillis())
-                    .build();
+            Log.e("ABC", "onResponse: " + call.request().url());
+
+            call.enqueue(new Callback<UserDTO>() {
+                @Override
+                public void onResponse(Call<UserDTO> call, Response<UserDTO> response) {
+                    if (response.isSuccessful()) {
+                        assert response.body() != null;
+                        String name = response.body().getName();
+                        receiver.setName(name);
+                        Transition transition = Transition.builder()
+                                .sender(sender)
+                                .receiver(receiver)
+                                .amount(Double.parseDouble(Objects.requireNonNull(amountInput.getEditText()).getText().toString()))
+                                .message(Objects.requireNonNull(contentInput.getEditText()).getText().toString())
+                                .time(System.currentTimeMillis())
+                                .build();
 
 
+                        Intent intent = new Intent(getApplicationContext(), ConfirmTransfer.class);
+                        intent.putExtra("transition", transition);
+                        startActivity(intent);
+                    } else {
 
-            Intent intent = new Intent(this, ConfirmTransfer.class);
-            intent.putExtra("transition", transition);
-            startActivity(intent);
+
+                        cardNumberInput.setError("User not found");
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<UserDTO> call, Throwable t) {
+                    Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_SHORT).show();
+                }
+            });
+
+
         });
 
 

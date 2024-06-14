@@ -7,6 +7,8 @@ import androidx.annotation.RequiresApi;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -22,35 +24,39 @@ public class FomatDateTime {
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     public LocalDateTime convertTime() {
-        try {
-            if (time == null) {
-                System.out.println("Chuỗi thời gian đầu vào là null");
-                return null;
-            }
 
-            // Định nghĩa định dạng của chuỗi đầu vào
-            DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
-
-            // Chuyển đổi chuỗi thành LocalDateTime
-            LocalDateTime dateTime = LocalDateTime.parse(time, inputFormatter);
-
-
-
-            // In ra để kiểm tra
-            return dateTime;
-        } catch (DateTimeParseException e) {
-            // Định nghĩa định dạng của chuỗi đầu vào
-            DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSSSS");
-
-            // Chuyển đổi chuỗi thành LocalDateTime
-            LocalDateTime dateTime = LocalDateTime.parse(time, inputFormatter);
-
-            // In ra để kiểm tra
-            return dateTime;
-        } catch (Exception e) {
-            System.out.println("Lỗi không xác định: " + e.getMessage());
-            e.printStackTrace();
+        if (time == null) {
             return null;
         }
+
+
+        Pattern pattern1 = Pattern.compile("\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$");
+        Pattern pattern2 = Pattern.compile("\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{6}$");
+
+
+        LocalDateTime dateTime = null;
+
+        Matcher matcher1 = pattern1.matcher(time);
+        Matcher matcher2 = pattern2.matcher(time);
+
+        try {
+            if (matcher1.matches()) {
+                DateTimeFormatter formatter1 = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
+
+
+                dateTime = LocalDateTime.parse(time, formatter1);
+            } else if (matcher2.matches()) {
+                DateTimeFormatter formatter2 = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSSSS");
+
+                dateTime = LocalDateTime.parse(time, formatter2);
+            } else {
+                throw new RuntimeException("Invalid date time format: " + time);
+            }
+        } catch (DateTimeParseException e) {
+            throw new RuntimeException("Unable to parse the date time: " + time, e);
+        }
+
+        return dateTime;
+
     }
 }

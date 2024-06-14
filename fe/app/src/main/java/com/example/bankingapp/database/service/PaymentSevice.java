@@ -16,12 +16,12 @@ public interface PaymentSevice {
 //    @GET("payment/search")
 //    Call<List<PaymentHistoryItem>> findAll(@Query("forUser") String forUser);
     @GET("payment/current")
-    Call<List<PaymentHistoryItem>> getPaymentByCate(@Query("category") String category, @Header("Authorization") String token);
+    Call<List<PaymentHistoryItem>> getPaymentByCate(@Header("Authorization") String token);
     @GET("bill/{code}")
     Call<BillEntity> getBill(@Path("code") String code, @Header("Authorization") String token);
 
     @POST("bill/{code}/pay")
-    Call<Object> payBill(@Path("code") String code, @Header("Authorization") String token);
+    Call<Void> payBill(@Path("code") String code, @Header("Authorization") String token);
 
 
 }

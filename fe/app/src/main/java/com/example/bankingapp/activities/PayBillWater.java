@@ -45,6 +45,8 @@ public class PayBillWater extends BaseActivity {
     private TextView codeTextView;
     private TextView fromDateTextView;
     private TextView toDateTextView;
+    private TextView amountTextView;
+
     private TextView waterFeeTextView;
     private TextView taxTextView;
     private TextView totalTextView;
@@ -63,6 +65,7 @@ public class PayBillWater extends BaseActivity {
         phoneTextView = findViewById(R.id.textView6);
         codeTextView = findViewById(R.id.textView7);
         fromDateTextView = findViewById(R.id.textView8);
+        amountTextView = findViewById(R.id.textView10);
         toDateTextView = findViewById(R.id.textView9);
         waterFeeTextView = findViewById(R.id.textView11);
         taxTextView = findViewById(R.id.textView12);
@@ -113,12 +116,12 @@ public class PayBillWater extends BaseActivity {
                 throw new RuntimeException(e);
             }
             PaymentSevice paymentSevice = Database.getClient().create(PaymentSevice.class);
-            Call<Object> call = paymentSevice.payBill(billCode,"Bearer "+token);
+            Call<Void> call = paymentSevice.payBill(billCode,"Bearer "+token);
 
 
-            call.enqueue(new Callback<Object>() {
+            call.enqueue(new Callback<Void>() {
                 @Override
-                public void onResponse(@NonNull Call<Object> call, @NonNull Response<Object> response) {
+                public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
                     // thành công thì chuyển sang activity pay Success
                     if (response.isSuccessful()){
                         Toast.makeText(PayBillWater.this, "Pay bill water success", Toast.LENGTH_SHORT).show();
@@ -136,10 +139,9 @@ public class PayBillWater extends BaseActivity {
                 }
 
                 @Override
-                public void onFailure(@NonNull Call<Object> call, @NonNull Throwable t) {
-                    Toast.makeText(PayBillWater.this, "Pay bill water success", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(PayBillWater.this, PayBillSuccess.class);
-                    startActivity(intent);
+                public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
+                    Toast.makeText(PayBillWater.this, "Error", Toast.LENGTH_SHORT).show();
+
                 }
             });
         });
@@ -181,9 +183,10 @@ public class PayBillWater extends BaseActivity {
                     codeTextView.setText(bill.getCode());
                     fromDateTextView.setText(dateFormat.format(fromDateTime));
                     toDateTextView.setText(dateFormat.format(toDateTime));
+                    amountTextView.setText(bill.getAmount()+"");
                     waterFeeTextView.setText(bill.getFee()+"");
                     taxTextView.setText(bill.getTax()+"");
-                    double total = bill.getFee() + bill.getTax();
+                    double total = bill.getAmount() - ( bill.getFee() + bill.getTax());
                     totalTextView.setText(total+"");
                 } else {
                     try {

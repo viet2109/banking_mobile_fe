@@ -42,6 +42,7 @@ public class PayBillElectric extends BaseActivity {
     private TextView codeTextView;
     private TextView fromDateTextView;
     private TextView toDateTextView;
+    private TextView amountTextView;
     private TextView electricFeeTextView;
     private TextView taxTextView;
     private TextView totalTextView;
@@ -62,6 +63,7 @@ public class PayBillElectric extends BaseActivity {
         fromDateTextView = findViewById(R.id.textView8);
         toDateTextView = findViewById(R.id.textView9);
         electricFeeTextView = findViewById(R.id.textView11);
+        amountTextView = findViewById(R.id.textView10);
         taxTextView = findViewById(R.id.textView12);
         totalTextView = findViewById(R.id.textView13);
 
@@ -109,12 +111,12 @@ public class PayBillElectric extends BaseActivity {
                 throw new RuntimeException(e);
             }
             PaymentSevice paymentSevice = Database.getClient().create(PaymentSevice.class);
-            Call<Object> call = paymentSevice.payBill(billCode,"Bearer "+token);
+            Call<Void> call = paymentSevice.payBill(billCode,"Bearer "+token);
 
 
-            call.enqueue(new Callback<Object>() {
+            call.enqueue(new Callback<Void>() {
                 @Override
-                public void onResponse(@NonNull Call<Object> call, @NonNull Response<Object> response) {
+                public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
                     // thành công thì chuyển sang activity pay Success
                     if (response.isSuccessful()){
                         Toast.makeText(PayBillElectric.this, "Pay bill electric success", Toast.LENGTH_SHORT).show();
@@ -132,10 +134,8 @@ public class PayBillElectric extends BaseActivity {
                 }
 
                 @Override
-                public void onFailure(@NonNull Call<Object> call, @NonNull Throwable t) {
-                    Toast.makeText(PayBillElectric.this, "Pay bill electric success", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(PayBillElectric.this, PayBillSuccess.class);
-                    startActivity(intent);
+                public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
+                    Toast.makeText(PayBillElectric.this, "Error", Toast.LENGTH_SHORT).show();
                 }
             });
         });
@@ -177,9 +177,10 @@ public class PayBillElectric extends BaseActivity {
                     codeTextView.setText(bill.getCode());
                     fromDateTextView.setText(dateFormat.format(fromDateTime));
                     toDateTextView.setText(dateFormat.format(toDateTime));
+                    amountTextView.setText(bill.getAmount()+"");
                     electricFeeTextView.setText(bill.getFee()+"");
                     taxTextView.setText(bill.getTax()+"");
-                    double total = bill.getFee() + bill.getTax();
+                    double total = bill.getAmount() -( bill.getFee() + bill.getTax());
                     totalTextView.setText(total+"");
                 } else {
                     try {
