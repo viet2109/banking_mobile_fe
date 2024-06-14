@@ -31,6 +31,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
         android:text="You have successfully paid your bill! Please check your balance."
+        android:textAlignment="center"
         android:textColor="@android:color/black"
         android:textSize="16sp" />
 
