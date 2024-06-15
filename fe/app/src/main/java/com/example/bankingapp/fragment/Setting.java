@@ -20,9 +20,12 @@ import android.widget.Toast;
 
 import com.example.bankingapp.R;
 import com.example.bankingapp.activities.Language;
+import com.example.bankingapp.activities.SignIn;
 import com.example.bankingapp.database.dto.UserDTO;
 import com.example.bankingapp.storage.UserStorage;
 
+import java.io.IOException;
+import java.security.GeneralSecurityException;
 import java.util.Locale;
 import java.util.Objects;
 
@@ -38,7 +41,7 @@ public class Setting extends Fragment {
     private static final String ARG_PARAM2 = "param2";
 
     private String mParam1;
-    private Button backBtn;
+    private Button backBtn, logout;
     private String mParam2;
 
     public Setting() {
@@ -69,6 +72,22 @@ public class Setting extends Fragment {
         View view = inflater.inflate(R.layout.fragment_setting, container, false);
 
         backBtn = view.findViewById(R.id.setting_back);
+        logout = view.findViewById(R.id.logout);
+
+        logout.setOnClickListener(v -> {
+            try {
+                UserStorage userStorage = new UserStorage(getContext());
+                userStorage.clearUser();
+                userStorage.clearToken();
+                userStorage.clearLanguage();
+            } catch (GeneralSecurityException | IOException e) {
+                throw new RuntimeException(e);
+            }
+
+            Intent intent = new Intent(getActivity(), SignIn.class);
+            startActivity(intent);
+        });
+
         backBtn.setOnClickListener(v -> {
             Log.d("TAG", "fragment: " + requireActivity().getSupportFragmentManager().getBackStackEntryCount());
 

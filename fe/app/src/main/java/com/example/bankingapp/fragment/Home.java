@@ -126,7 +126,7 @@ public class Home extends Fragment {
 
         textView.setText(String.format("%s, %s", getString(R.string.welcome), userStorage.getUser().getName()));
         card_name.setText(userStorage.getUser().getName());
-        card_number.setText(CardDisplay.builder().cardNumber(userStorage.getUser().getCardNumber()).build().display());
+        card_number.setText(CardDisplay.builder().cardNumber(userStorage.getUser().getCardNumber()).build().displayShow());
 
 
         listCard = new ArrayList<CardView>(Arrays.asList(transfer, report, pay_bill, exchange, payment_report));

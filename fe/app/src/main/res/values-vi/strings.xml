@@ -33,6 +33,7 @@
     <string name="touch_id">Nhận diện vân tay</string>
     <string name="app_information">Thông tin ứng dụng</string>
     <string name="customer_care">Chăm sóc khách hàng</string>
+    <string name="logout">Đăng xuất</string>
 
 
 </resources>

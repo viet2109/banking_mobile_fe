@@ -56,6 +56,7 @@
                         android:textSize="18sp" />
 
                     <LinearLayout
+                        android:id="@+id/linearLayout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/setting_name"
@@ -132,22 +133,23 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content">
+
                             <TextView
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:text="@string/customer_care"
-                                android:textSize="16sp"
-                                android:paddingVertical="12dp"
                                 android:ellipsize="end"
-                                android:maxLines="1"/>
+                                android:maxLines="1"
+                                android:paddingVertical="12dp"
+                                android:text="@string/customer_care"
+                                android:textSize="16sp" />
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="19008989"
                                 android:textColor="@android:color/darker_gray"
-                                android:textSize="16sp"/>
+                                android:textSize="16sp" />
 
                         </LinearLayout>
 
@@ -158,6 +160,18 @@
                             android:background="@android:color/darker_gray" />
 
                     </LinearLayout>
+
+                    <Button
+                        android:id="@+id/logout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/linearLayout"
+                        android:layout_marginTop="10dp"
+                        android:text="@string/logout"
+                        android:layout_centerHorizontal="true"
+                        />"
+
+                    />
 
                 </RelativeLayout>
 

@@ -145,7 +145,7 @@ public class PayBillElectric extends BaseActivity {
     private void fetchBillInformation(String billCode) throws GeneralSecurityException, IOException {
         PaymentSevice paymentSevice = Database.getClient().create(PaymentSevice.class);
         String token = new UserStorage(this).getToken();
-        Call<BillEntity> call = paymentSevice.getBill(billCode, "Bearer "+ token);
+        Call<BillEntity> call = paymentSevice.getBill(billCode, "Electric", "Bearer "+ token);
         Log.e("call", "fetchBillInformation: " +call.request().url() );
         call.enqueue(new Callback<BillEntity>() {
             @RequiresApi(api = Build.VERSION_CODES.O)
