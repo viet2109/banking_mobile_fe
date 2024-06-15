@@ -4,6 +4,11 @@ import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.example.bankingapp.storage.UserStorage;
+
+import java.io.IOException;
+import java.security.GeneralSecurityException;
+
 
 public class App extends Application {
     @Override
@@ -14,9 +19,13 @@ public class App extends Application {
     @Override
     public void onTerminate() {
         super.onTerminate();
-        SharedPreferences sharedPreferences = getSharedPreferences("user", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.clear();
-        editor.apply();
+        try {
+            UserStorage userStorage = new UserStorage(this);
+            userStorage.clearUser();
+            userStorage.clearToken();
+            userStorage.clearLanguage();
+        } catch (GeneralSecurityException | IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

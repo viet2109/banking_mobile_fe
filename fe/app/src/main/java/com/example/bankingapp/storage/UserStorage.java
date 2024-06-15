@@ -71,4 +71,7 @@ public class UserStorage {
     public void clearToken() {
         sharedPreferences.edit().remove(TOKEN_KEY).apply();
     }
+    public void clearLanguage() {
+        sharedPreferences.edit().remove(LANGUAGE_KEY).apply();
+    }
 }
