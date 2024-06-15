@@ -24,6 +24,9 @@ public interface AuthService {
     @POST("auth/register")
     Call<UserDTO.Register> register(@Body UserDTO.Register user);
 
+    @GET("auth/forgot-pass/{email}")
+    Call<Void> forgotPassword(@Path("email") String email);
+
 
 
     @POST("currency/exchange")
