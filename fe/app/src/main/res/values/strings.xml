@@ -32,4 +32,5 @@
     <string name="touch_id">Touch ID</string>
     <string name="app_information">App information</string>
     <string name="customer_care">Customer care</string>
+    <string name="logout">Logout</string>
 </resources>

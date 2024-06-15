@@ -35,4 +35,25 @@ public class CardDisplay {
         // Kết hợp các phần
         return firstThree + " " + hidden.toString() + " " + lastThree;
     }
+
+    public String displayShow() {
+        // Kiểm tra độ dài của số thẻ phải ít nhất là 6
+        if (cardNumber == null || cardNumber.length() < 6) {
+            throw new IllegalArgumentException("Số thẻ phải có ít nhất 6 ký tự.");
+        }
+
+
+        StringBuilder hidden = new StringBuilder();
+        for (int i = 0; i < cardNumber.length(); i++) {
+            hidden.append(cardNumber.charAt(i));
+
+            if (i > 0 && i % 3 == 0) {
+                hidden.append(' ');
+            }
+        }
+
+        // Kết hợp các phần
+        return hidden.toString();
+    }
+
 }

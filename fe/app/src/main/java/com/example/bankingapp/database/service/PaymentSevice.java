@@ -18,7 +18,7 @@ public interface PaymentSevice {
     @GET("payment/current")
     Call<List<PaymentHistoryItem>> getPaymentByCate(@Header("Authorization") String token);
     @GET("bill/{code}")
-    Call<BillEntity> getBill(@Path("code") String code, @Header("Authorization") String token);
+    Call<BillEntity> getBill(@Path("code") String code,@Query("category") String category, @Header("Authorization") String token);
 
     @POST("bill/{code}/pay")
     Call<Void> payBill(@Path("code") String code, @Header("Authorization") String token);
